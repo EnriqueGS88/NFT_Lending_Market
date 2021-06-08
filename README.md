@@ -7,7 +7,7 @@ To build and test the project we make use of these tools:
 - Ethers. <https://docs.ethers.io>
 
 ## Steps to create project
-- npm install -y
+- npm init -y
 - npm install --save-dev hardhat
 - npx hardhat 
   - ✔ What do you want to do? · Create a sample project
@@ -15,3 +15,4 @@ To build and test the project we make use of these tools:
   - ✔ Do you want to add a .gitignore? (Y/n) · y
   - ✔ Do you want to install the sample project's dependencies with npm (@nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers)? (Y/n) · y
 - npm install -D hardhat-deploy @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers
+- npm install @openzeppelin/contracts

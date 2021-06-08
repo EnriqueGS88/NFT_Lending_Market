@@ -1,5 +1,5 @@
 {
-  "name": "TFM",
+  "name": "tfm",
   "version": "1.0.0",
   "description": "Master Project based on NFT that interacts with Ethereum blockchain.",
   "main": "index.js",
@@ -20,5 +20,8 @@
     "ethereum-waffle": "^3.3.0",
     "ethers": "^5.3.0",
     "hardhat": "^2.3.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.1.0"
   }
 }
