@@ -1,23 +1,23 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-import "@openzeppelin/contracts/token/ERC20/presets/ERC20PresetMinterPauser.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.7.3;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import "hardhat/console.sol";
 
-contract NTK is ERC20PresetMinterPauser {
-    constructor() ERC20PresetMinterPauser("NFT token", "NTK") {
+contract NTK is ERC20 {
+    constructor() ERC20("NFT token", "NTK") {
     _mint(msg.sender, 1000000*10**18);
     }
 }
 
-contract PNTK is ERC20PresetMinterPauser {
+contract PNTK is ERC20 {
     address admin;
 
-    constructor() ERC20PresetMinterPauser("Platform NTK tokens", "PNTK") {
+    constructor() ERC20("Platform NTK tokens", "PNTK") {
         admin = msg.sender; // MyPlatform contract
     }
 
-    function mint(address to, uint256 amount) public override {
+    function mint(address to, uint256 amount) public virtual {
         require( msg.sender == admin); 
         _mint(to, amount);
     }

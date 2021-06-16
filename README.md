@@ -14,5 +14,13 @@ To build and test the project we make use of these tools:
   - ✔ Hardhat project root: · /home/xxx/TFM
   - ✔ Do you want to add a .gitignore? (Y/n) · y
   - ✔ Do you want to install the sample project's dependencies with npm (@nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers)? (Y/n) · y
-- npm install -D hardhat-deploy @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers
-- npm install @openzeppelin/contracts
+- npm install --save-dev  @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ethers
+- npm install dotenv
+- npm install @chainlink/contracts
+- npm install @chainlink/test-helpers
+- npm install @chainlink/token
+- npm install --save-dev web3 (some utils)
+
+
+
+- npx hardat compile
