@@ -1,0 +1,20 @@
+- Contrato donde se votan/consultan la tasa de interes, periodos. (Alex)
+	- Operación para votar individualmente (comprobar que es un holder, cantidad de token y que estamos en periodo de votación) 
+	- Operación para modificar condiciones (llama al contrato de borrow/lending)
+	
+- Contrato de borrow/lending (Diego)
+	Variables
+	- tipo de interés (fijo en esta versión: 1%)
+	- periodo de amortización mínimo meses. (inicial: 12) 
+	- periodo de amortización máximo meses (inicial: 120)
+	- periodo de revisión de las condiciones. (inicial: cada mes)
+	- periodo de votación (fijo: 5 dias).
+
+ 	- Operación de información de las condiciones
+ 	- Operación de evaluar las condiciones de un NFT
+ 	- Operación de modificación de las condiciones (solamente puede hacerlo el contrato)
+
+- Contrato de token ERC20 de governanza, (David, Roger) (NFT de collateral y minta token NFT) (Uniswap V3)
+  
+- Contrato de las subastas para los liquidadores, (Enrique tiene ejemplo)
+	
