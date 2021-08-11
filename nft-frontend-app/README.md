@@ -54,3 +54,8 @@ npx hardhat run scripts/deploy.js --network localhost
 
 Import accounts in Metamask:
 Use network Localhost 8545 and import with the private key
+
+
+## Auxiliar libraries
+For UI components:
+https://github.com/ConsenSysMesh/rimble-ui 
