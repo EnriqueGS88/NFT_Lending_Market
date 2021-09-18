@@ -2,7 +2,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Borrow from '../pages/Borrow';
 import Pool from '../pages/Pool';
 import 'react-tabs/style/react-tabs.css';
-import Info from '../pages/Info';
 
 function HeaderTabs() {
 
@@ -19,9 +18,6 @@ function HeaderTabs() {
         </TabPanel>
         <TabPanel>
           <Pool />
-        </TabPanel>
-        <TabPanel>
-          <Info />
         </TabPanel>
       </Tabs>
     )

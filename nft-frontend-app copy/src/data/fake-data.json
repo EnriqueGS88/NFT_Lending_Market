@@ -1,0 +1,8 @@
+{
+    "collaterals" : [{
+        "name": "casa1",
+        "addressNft": "0x0000",
+        "owner": "0x976723A8164b0B84Ec2E249Ec357881De84A8424",
+        "valueEstimated": 200000
+    }]
+}
