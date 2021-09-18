@@ -25,16 +25,24 @@ function Header(props: Props) {
       }
 
     return (
-      <div style={styles.header}>
-        <div style={styles.headerItemCenter}>
-          <div style={{display: 'flex', alignItems: 'center'}}>
-            <a style={styles.link} href="/" target='_blank'>
-              <h1 style={styles.title}>NFT</h1>
-            </a>
-          </div>
+      <div>
+        <div style={styles.warningMessage}>
+          <span role="img" aria-label="warning">
+            💀
+          </span>{' '}
+          This project is in beta. Use at your own risk.
         </div>
-        <div style={styles.headerItem}>
-        <MetaMaskButton size="medium" className="MetamaskButton" onClick={()=> connectWithMetamask()}>Connect with MetaMask</MetaMaskButton> 
+        <div style={styles.header}>
+          <div style={styles.headerItemCenter}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <a style={styles.link} href="/" target='_blank'>
+                <h1 style={styles.title}>NFT</h1>
+              </a>
+            </div>
+          </div>
+          <div style={styles.headerItem}>
+          <MetaMaskButton size="medium" className="MetamaskButton" onClick={()=> connectWithMetamask()}>Connect with MetaMask</MetaMaskButton> 
+          </div>
         </div>
       </div>
     )
@@ -64,6 +72,23 @@ const styles = {
         fontSize: '4rem',
         fontWeight: 500,
         color: colors.black
+    },
+    warningMessage: {
+      cursor: 'pointer',
+      flex: 1 ,
+      alignItems: 'center',
+      padding: '0.5rem 1rem',
+      paddingRight: '2rem',
+      marginBottom: '1rem',
+      border: '1px solid',
+      borderColor: colors.wisteriaPurple,
+      backgroundColor: colors.wisteriaPurple,
+      borderRadius: '1rem',
+      fontSize: '0.75rem',
+      lineHeight: '1rem',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      color: colors.white,
     }
 }
 export default Header;
