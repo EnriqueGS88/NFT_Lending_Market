@@ -1,6 +1,5 @@
 import React, {useEffect, useState }  from 'react';
 import { ethers } from 'ethers';
-import { Button, ToastMessage, EthAddress, Box, Input, Field, Modal, Flex, Card, Heading, Text} from 'rimble-ui';
 import {House} from '../dtos/houses';
 import HouseItem from '../components/HouseItem';
 

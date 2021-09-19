@@ -116,7 +116,7 @@ function Loans() {
 const styles = {
     box: {
         textAlign: 'center',
-        backgroundColor: colors.wisteriaPurple
+        backgroundColor: colors.bluePurple
     },
 }
 export default Loans;
