@@ -7,7 +7,9 @@ function Borrow() {
 
     return (
         <div>
-            <p>Borrow</p>
+            <h1>Borrow</h1>
+            <p>In order to apply for a Loan you first have to deposit a real state NFT as a collateral.</p>
+            <p> Then borrow up to 100% the value of your collateral in ETH.</p>
             <Tabs >
                 <TabList className={styles.tabs}>
                     <Tab>Collateral</Tab>

@@ -59,3 +59,6 @@ Use network Localhost 8545 and import with the private key
 ## Auxiliar libraries
 For UI components:
 https://github.com/ConsenSysMesh/rimble-ui 
+
+Connect with different wallets:
+https://github.com/Web3Modal/web3modal
