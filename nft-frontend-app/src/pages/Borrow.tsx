@@ -28,12 +28,6 @@ function Borrow() {
   }
 
 const styles = {
-    header: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-    },
     tabs: {
         width: '50%',
     },

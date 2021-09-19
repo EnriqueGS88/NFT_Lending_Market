@@ -2,7 +2,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Borrow from '../pages/Borrow';
 import Pool from '../pages/Pool';
 import 'react-tabs/style/react-tabs.css';
-import Info from '../pages/Info';
+import Vote from '../pages/Vote';
+import Liquidate from '../pages/Liquidate';
 
 function HeaderTabs() {
 
@@ -11,7 +12,8 @@ function HeaderTabs() {
         <TabList>
           <Tab>Borrow</Tab>
           <Tab>Pool</Tab>
-          <Tab>Info</Tab>
+          <Tab>Liquidate</Tab>
+          <Tab>Vote</Tab>
         </TabList>
     
         <TabPanel>
@@ -21,7 +23,10 @@ function HeaderTabs() {
           <Pool />
         </TabPanel>
         <TabPanel>
-          <Info />
+          <Liquidate />
+        </TabPanel>
+        <TabPanel>
+          <Vote />
         </TabPanel>
       </Tabs>
     )

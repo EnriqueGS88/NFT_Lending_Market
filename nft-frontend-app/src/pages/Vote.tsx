@@ -1,10 +1,10 @@
 import React from 'react'
 
-function Info() {
+function Vote() {
 
     return (
         <div>
-            <p>Info</p>
+            <p>Vote</p>
         </div>
     )
   }
@@ -17,4 +17,4 @@ const styles = {
         width: '100%',
     },
 }
-export default Info;
+export default Vote;

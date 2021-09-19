@@ -1,0 +1,22 @@
+{
+    "houses": [
+        {
+            "title": "Flat / apartment for sale in Sant Gervasi - Galvany",
+            "image": "https://img3.idealista.com/blur/WEB_DETAIL-XL-L/0/id.pro.es.image.master/6a/79/4e/778082835.jpg",
+            "price": "999,000 €",
+            "location": "Sarrià-Sant Gervasi, Barcelona",
+            "contact": "611111111",
+            "description": "250sq m living to refurbish with 50m2 terrace located in a restored manor house estate from 1940 with elevator. The building is in ‘Avinguda Diagonal’, just a few meters from ‘Via Augusta’ and close to ‘Plaça Gal·la Placídia’ and ‘Círculo Ecuestre’, in Galvany.",
+            "url": "https://www.idealista.com/en/inmueble/89854790/"
+        },
+        {
+            "title": "Flat / apartment for sale in Sant Pere - Santa Caterina i la Ribera",
+            "image": "https://img3.idealista.com/blur/WEB_DETAIL-XL-L/0/id.pro.es.image.master/6a/e9/bf/888435744.jpg",
+            "price": "790,000 €",
+            "location": "Ciutat Vella, Barcelona",
+            "contact": "611111111",
+            "description": "This property with 146 interior sqm and a large 43 sqm terrace is unique in its features. It's located just one street away from the Ciutadella Park, Paseo Picaso and Paseo del Born, and just in front of the Born Centre of Culture and Memory. The area is very well connected by train, metro, bus, and it's close to all kinds of services, as well as bars, shops, restaurants.. .",
+            "url": "https://www.idealista.com/en/inmueble/94422776/"
+        }
+    ]
+}
