@@ -9,7 +9,7 @@ function HeaderTabs() {
 
     return (
         <Tabs>
-        <TabList>
+        <TabList className={styles.tabs}>
           <Tab>Borrow</Tab>
           <Tab>Pool</Tab>
           <Tab>Liquidate</Tab>
@@ -30,6 +30,12 @@ function HeaderTabs() {
         </TabPanel>
       </Tabs>
     )
+  }
+
+  const styles = {
+    tabs: {
+        width: '50%',
+    },
   }
 
 export default HeaderTabs;

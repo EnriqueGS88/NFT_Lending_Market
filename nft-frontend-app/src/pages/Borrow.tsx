@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import colors from '../config/colors';
 import Collateral from './Collateral';
 import Loans from './Loans';
 
@@ -10,13 +11,13 @@ function Borrow() {
             <h1>Borrow</h1>
             <p>In order to apply for a Loan you first have to deposit a real state NFT as a collateral.</p>
             <p> Then borrow up to 100% the value of your collateral in ETH.</p>
-            <Tabs >
+            <Tabs indicatorColor={colors.bluePurple}>
                 <TabList className={styles.tabs}>
                     <Tab>Collateral</Tab>
                     <Tab>Loans</Tab>
                 </TabList>
             
-                <TabPanel>
+                <TabPanel className={styles.tabs}>
                     <Collateral />
                 </TabPanel>
                 <TabPanel>
@@ -30,6 +31,7 @@ function Borrow() {
 const styles = {
     tabs: {
         width: '50%',
+        backgroundColor: colors.bluePurple
     },
 }
 export default Borrow;
