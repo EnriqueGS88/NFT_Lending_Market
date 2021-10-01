@@ -36,7 +36,7 @@ function Header(props: Props) {
           <div style={styles.headerItemCenter}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <a style={styles.link} href="/" target='_blank'>
-                <h1 style={styles.title}>NFT</h1>
+                <h1 style={styles.title}>RealStateChain</h1>
               </a>
             </div>
           </div>
@@ -69,9 +69,9 @@ const styles = {
         textDecoration: 'none',
     },
     title: {
-        fontSize: '4rem',
-        fontWeight: 500,
-        color: colors.black
+        fontSize: '3rem',
+        fontWeight: 400,
+        color: colors.bluePurple
     },
     warningMessage: {
       cursor: 'pointer',

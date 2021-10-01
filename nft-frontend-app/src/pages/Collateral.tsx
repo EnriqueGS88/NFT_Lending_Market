@@ -10,8 +10,13 @@ function Collateral() {
         const getMyAccount = async () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
+            try{
             const address = await signer.getAddress();
             setMyAddress(address);
+            }
+            catch(error){
+                setMyAddress('');
+            }
         }
         getMyAccount();
     },[]);

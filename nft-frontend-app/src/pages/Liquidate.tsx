@@ -16,8 +16,13 @@ function Liquidate() {
         const getMyAccount = async () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
+            try{
             const address = await signer.getAddress();
-            setMyAddress(address);
+                setMyAddress(address);
+            }
+            catch(error){
+                setMyAddress('');
+            }
         }
         const getHouses = async() => {
             const housesItems = [] as JSX.Element[];
