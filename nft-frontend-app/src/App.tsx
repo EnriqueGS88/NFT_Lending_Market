@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { ToastMessage } from 'rimble-ui';
-import { BrowserRouter } from 'react-router-dom';
 import Header from './components/Header';
 import HeaderTabs from './components/Tabs';
-
+import Footer from './components/Footer';
 
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
 
@@ -73,6 +72,7 @@ function App() {
       }
       <Header setConnectionSuccess={setConnectionSuccess} setConnectionFailed={setConnectionFailed}></Header>
       <HeaderTabs />
+      <Footer/>
       
     </div>
   );
