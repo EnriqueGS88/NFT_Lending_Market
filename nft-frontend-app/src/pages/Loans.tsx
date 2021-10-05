@@ -1,24 +1,16 @@
 import React, {useEffect, useState }  from 'react';
-import { ethers } from 'ethers';
 import { Button, ToastMessage, Box, Flex, Field, Input, Text, Modal, Card, Heading } from 'rimble-ui';
 import colors from '../config/colors';
+import { AccountProps } from '../components/Tabs';
 
 declare const window: any;
-function Loans() {
-    const [myAddress, setMyAddress] = useState('');
+function Loans(props: AccountProps) {
     const [collateralBalance, setCollateralBalance] = useState(0);
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
 
 
     useEffect(() => {
-        const getMyAccount = async () => {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            setMyAddress(address);
-        }
-        getMyAccount();
         setCollateralBalance(0);
     },[]);
 
@@ -45,10 +37,10 @@ function Loans() {
     return (
         <div>
             <h3>Borrow ETH</h3>
-            {myAddress !== '' &&
+            {props.account !== '' &&
                 <div>
                     <div>
-                    <p>Hi {myAddress} !</p>
+                    <p>Hi {props.account} !</p>
                     <p>Your collateral balance: {collateralBalance} ETH</p>
                     </div>
                     <div>
@@ -105,7 +97,7 @@ function Loans() {
 
                 </div>
             }
-            {myAddress === '' &&
+            {props.account === '' &&
                 <p>Connect with your Metamask Wallet</p>
             }
 

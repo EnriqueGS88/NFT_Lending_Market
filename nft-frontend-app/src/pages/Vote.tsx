@@ -1,22 +1,14 @@
 import React, {useEffect, useState }  from 'react';
 import { ethers } from 'ethers';
 import {Protocol} from '../dtos/protocol';
+import { AccountProps } from '../components/Tabs';
 
 declare const window: any;
-function Vote() {
-    const [myAddress, setMyAddress] = useState('');
+function Vote(props: AccountProps) {
     const [pntkMyBalance, setMyPntkBalance] = useState(0);
     const [protocolVariables, setProtocolVariables] = useState<Protocol>();
 
     useEffect(() => {
-        const getMyAccount = async () => {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            setMyAddress(address);
-        }
-
-        getMyAccount();
         setMyPntkBalance(0);
         const protocol: Protocol = {
             interestRate: 1,
@@ -31,7 +23,7 @@ function Vote() {
     return (
         <div>
         <h3>Governance</h3>
-        {myAddress !== '' &&
+        {props.account !== '' &&
             <div>
                 <h6>You can vote if you are a PNTK holder</h6>
                 <h6>Your PNTK balance: {pntkMyBalance} PNTK</h6>
@@ -60,7 +52,7 @@ function Vote() {
                 </div>
             </div>
         }
-        {myAddress === '' &&
+        {props.account === '' &&
             <p>Connect with your Metamask Wallet</p>
         }
 

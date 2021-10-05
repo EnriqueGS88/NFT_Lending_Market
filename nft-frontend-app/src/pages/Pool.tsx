@@ -1,23 +1,16 @@
 import React, {useEffect, useState }  from 'react';
 import { ethers } from 'ethers';
 import { Button, ToastMessage, EthAddress, Box, Input, Field, Modal, Flex, Card, Heading, Text} from 'rimble-ui';
+import { AccountProps } from '../components/Tabs';
 
 declare const window: any;
-function Pool() {
-    const [myAddress, setMyAddress] = useState('');
+function Pool(props: AccountProps) {
     const [poolBalance, setPoolBalance] = useState(0);
     const [pntkMyBalance, setMyPntkBalance] = useState(0);
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
-        const getMyAccount = async () => {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            setMyAddress(address);
-        }
-        getMyAccount();
         setPoolBalance(0);
         setMyPntkBalance(0);
     },[]);
@@ -40,7 +33,7 @@ function Pool() {
     return (
         <div>
             <h3>Pool</h3>
-            {myAddress !== '' &&
+            {props.account !== '' &&
                 <div>
                     <h6>Pool balance: {poolBalance} ETH - Pool Address:</h6>
                     <EthAddress style={styles.input} address={'0x99cb784f0429efd72wu39fn4256n8wud4e01c7d2'} />
@@ -99,7 +92,7 @@ function Pool() {
 
                 </div>
             }
-            {myAddress === '' &&
+            {props.account === '' &&
                 <p>Connect with your Metamask Wallet</p>
             }
 

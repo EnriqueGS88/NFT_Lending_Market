@@ -1,20 +1,8 @@
-import React, {useEffect, useState }  from 'react';
-import { ethers } from 'ethers';
 import { Button, ToastMessage } from 'rimble-ui';
+import { AccountProps } from '../components/Tabs';
 
-declare const window: any;
-function Collateral() {
-    const [myAddress, setMyAddress] = useState('');
-
-    useEffect(() => {
-        const getMyAccount = async () => {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            setMyAddress(address);
-        }
-        getMyAccount();
-    },[]);
+declare const window: any;  
+function Collateral(props: AccountProps) {
 
     function depositNFT() {
         window.toastProvider.addMessage("Implementing...", {
@@ -26,9 +14,9 @@ function Collateral() {
     return (
         <div>
             <h3>Deposit your Collateral</h3>
-            {myAddress !== '' &&
+            {props.account !== '' &&
                 <div>
-                    <p>Hi {myAddress} !</p>
+                    <p>Hi {props.account} !</p>
                     <p>You don't have any NFT deposited</p>
                     <Button size={'medium'} onClick={()=> depositNFT()}>Deposit</Button>
 
@@ -36,7 +24,7 @@ function Collateral() {
 
                 </div>
             }
-            {myAddress === '' &&
+            {props.account === '' &&
                 <p>Connect with your Metamask Wallet</p>
             }
 

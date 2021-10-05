@@ -1,24 +1,18 @@
 import React, {useEffect, useState }  from 'react';
-import { ethers } from 'ethers';
 import {House} from '../dtos/houses';
 import HouseItem from '../components/HouseItem';
 
 import realStateData from '../data/real-state.json';
+import { AccountProps } from '../components/Tabs';
 
 declare const window: any;
-function Liquidate() {
-    const [myAddress, setMyAddress] = useState('');
+
+function Liquidate(props: AccountProps) {
     const [pntkMyBalance, setMyPntkBalance] = useState(0);
     const [ethMyBalance, setMyEthBalance] = useState(0);
     const [houses, setHouses] = useState<JSX.Element[]>();
 
     useEffect(() => {
-        const getMyAccount = async () => {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            setMyAddress(address);
-        }
         const getHouses = async() => {
             const housesItems = [] as JSX.Element[];
             const arrayHouses: House[] = realStateData.houses;
@@ -31,7 +25,6 @@ function Liquidate() {
             });
             setHouses(housesItems);
         }
-        getMyAccount();
         getHouses();
         setMyPntkBalance(0);
         setMyEthBalance(0);
@@ -40,7 +33,7 @@ function Liquidate() {
     return (
         <div>
             <h3>Liquidate</h3>
-            {myAddress !== '' &&
+            {props.account !== '' &&
                 <div>
                     <h6>Your PNTK balance: {pntkMyBalance} PNTK</h6>
                     <p>You can liquidate a collateral with ETH if you have enought ETH and PNTK</p>
@@ -49,7 +42,7 @@ function Liquidate() {
                     <ul style={styles.list}>{houses}</ul>
                 </div>
             }
-            {myAddress === '' &&
+            {props.account === '' &&
                 <p>Connect with your Metamask Wallet</p>
             }
 

@@ -15,7 +15,7 @@ function Header(props: Props) {
           try {
             await window.ethereum.request({ method: 'eth_requestAccounts' });
             setConnectionSuccess(true);
-          } catch (error) {
+          } catch (error:any) {
             if (error.code === 4001) {
               // User rejected request
             }

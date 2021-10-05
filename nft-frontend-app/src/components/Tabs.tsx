@@ -5,7 +5,13 @@ import 'react-tabs/style/react-tabs.css';
 import Vote from '../pages/Vote';
 import Liquidate from '../pages/Liquidate';
 
-function HeaderTabs() {
+
+export interface AccountProps {
+  account: string,
+  getAccount?: any,
+}
+
+function HeaderTabs(props: AccountProps) {
 
     return (
         <Tabs>
@@ -17,16 +23,16 @@ function HeaderTabs() {
         </TabList>
     
         <TabPanel>
-          <Borrow />
+          <Borrow {...props} />
         </TabPanel>
         <TabPanel>
-          <Pool />
+          <Pool {...props} />
         </TabPanel>
         <TabPanel>
-          <Liquidate />
+          <Liquidate {...props} />
         </TabPanel>
         <TabPanel>
-          <Vote />
+          <Vote {...props}  />
         </TabPanel>
       </Tabs>
     )

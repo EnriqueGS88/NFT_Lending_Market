@@ -1,10 +1,11 @@
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { AccountProps } from '../components/Tabs';
 import colors from '../config/colors';
 import Collateral from './Collateral';
 import Loans from './Loans';
 
-function Borrow() {
+function Borrow(props: AccountProps) {
 
     return (
         <div>
@@ -18,10 +19,10 @@ function Borrow() {
                 </TabList>
             
                 <TabPanel className={styles.tabs}>
-                    <Collateral />
+                    <Collateral {...props}/>
                 </TabPanel>
                 <TabPanel>
-                    <Loans />
+                    <Loans {...props}/>
                 </TabPanel>
             </Tabs>
         </div>
