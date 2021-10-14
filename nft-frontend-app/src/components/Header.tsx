@@ -1,5 +1,7 @@
 import { MetaMaskButton } from 'rimble-ui';
 import colors from '../config/colors';
+import LanguageSelectionConnected from '../LanguageSelection/LanguageSelection.connected';
+import { useTranslation } from "react-i18next";
 
 declare const window: any;
 interface Props {
@@ -8,7 +10,8 @@ interface Props {
 } 
 
 function Header(props: Props) {
-  
+    const translations = useTranslation("translations");
+
     async function connectWithMetamask() {
         const {setConnectionSuccess, setConnectionFailed} = props;
         if (window.ethereum) {
@@ -30,7 +33,8 @@ function Header(props: Props) {
           <span role="img" aria-label="warning">
             💀
           </span>{' '}
-          This project is in beta. Use at your own risk.
+          {translations.t("projectBeta")}
+          
         </div>
         <div style={styles.header}>
           <div style={styles.headerItemCenter}>
@@ -39,10 +43,20 @@ function Header(props: Props) {
                 <h1 style={styles.title}>NFT</h1>
               </a>
             </div>
+            <div>
+              <LanguageSelectionConnected />
+            </div>
+            
           </div>
+          
           <div style={styles.headerItem}>
-          <MetaMaskButton size="medium" className="MetamaskButton" onClick={()=> connectWithMetamask()}>Connect with MetaMask</MetaMaskButton> 
-          </div>
+            {
+              !window.ethereum ?
+                <MetaMaskButton size="medium" className="MetamaskButton"
+                onClick={() => connectWithMetamask()}>{translations.t("connectWithMetamask")}</MetaMaskButton>
+                : null
+            }
+              </div>
         </div>
       </div>
     )

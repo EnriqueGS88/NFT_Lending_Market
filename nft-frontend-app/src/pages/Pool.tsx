@@ -2,6 +2,7 @@ import React, {useEffect, useState }  from 'react';
 import { ethers } from 'ethers';
 import { Button, ToastMessage, EthAddress, Box, Input, Field, Modal, Flex, Card, Heading, Text} from 'rimble-ui';
 import { AccountProps } from '../components/Tabs';
+import { useTranslation } from "react-i18next";
 
 declare const window: any;
 function Pool(props: AccountProps) {
@@ -10,6 +11,9 @@ function Pool(props: AccountProps) {
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
 
+    const translations = useTranslation("translations");
+
+    
     useEffect(() => {
         setPoolBalance(0);
         setMyPntkBalance(0);
@@ -32,16 +36,16 @@ function Pool(props: AccountProps) {
 
     return (
         <div>
-            <h3>Pool</h3>
+            <h3>{translations.t("pool")}</h3>
             {props.account !== '' &&
                 <div>
-                    <h6>Pool balance: {poolBalance} ETH - Pool Address:</h6>
+                    <h6>{translations.t("poolBalance", {poolBalance: poolBalance})}</h6>
                     <EthAddress style={styles.input} address={'0x99cb784f0429efd72wu39fn4256n8wud4e01c7d2'} />
                     
-                    <h6>Your PNTK balance: {pntkMyBalance} PNTK</h6>
-                    <p>You can deposit ETH and you will receive the same amount in PNTK</p>
+                    <h6>{translations.t("pntkBalance", { pntkBalance: pntkMyBalance }) }</h6>
+                <p>{translations.t("depositEthReceivePntk")}</p>
                     <Box>
-                        <Field label={"ETH available to deposit"}>
+                        <Field label={translations.t("ethAvailableDeposit")}>
                         <Input
                             type="number"
                             min={0}
@@ -54,7 +58,7 @@ function Pool(props: AccountProps) {
                         />
                         </Field>
                     </Box>
-                    <Button size={'medium'} onClick={()=> openModal()}>Deposit Eth</Button>
+                    <Button size={'medium'} onClick={()=> openModal()}>{translations.t("depositEth")}</Button>
 
                     <Modal isOpen={isModalOpen}>
                         <Card width={"420px"} p={0}>
@@ -71,8 +75,8 @@ function Pool(props: AccountProps) {
                             />
 
                             <Box p={4} mb={3}>
-                                <Heading.h3>Confirm the loan</Heading.h3>
-                                <Text>Are you sure you want to deposit {ethToBorrow} ETH in to the pool?</Text>
+                                <Heading.h3>{translations.t("confirmLoan")}</Heading.h3>
+                                <Text>{translations.t("sureToDeposit", {quantity: ethToBorrow})}</Text>
                             </Box>
 
                             <Flex
@@ -82,8 +86,8 @@ function Pool(props: AccountProps) {
                             borderColor={"#E8E8E8"}
                             justifyContent={"flex-end"}
                             >
-                            <Button.Outline onClick={closeModal}>Cancel</Button.Outline>
-                            <Button ml={3} onClick={()=> depositETH()}>Confirm</Button>
+                            <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
+                            <Button ml={3} onClick={()=> depositETH()}>{translations.t("confirm")}</Button>
                             </Flex>
                         </Card>
                     </Modal>
@@ -93,7 +97,7 @@ function Pool(props: AccountProps) {
                 </div>
             }
             {props.account === '' &&
-                <p>Connect with your Metamask Wallet</p>
+                <p>{translations.t("connectMetamask")}</p>
             }
 
         </div>

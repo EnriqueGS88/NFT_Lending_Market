@@ -4,7 +4,7 @@ import Pool from '../pages/Pool';
 import 'react-tabs/style/react-tabs.css';
 import Vote from '../pages/Vote';
 import Liquidate from '../pages/Liquidate';
-
+import { useTranslation } from "react-i18next";
 
 export interface AccountProps {
   account: string,
@@ -13,13 +13,15 @@ export interface AccountProps {
 
 function HeaderTabs(props: AccountProps) {
 
+    const translations = useTranslation("translations");
+
     return (
         <Tabs>
         <TabList className={styles.tabs}>
-          <Tab>Borrow</Tab>
-          <Tab>Pool</Tab>
-          <Tab>Liquidate</Tab>
-          <Tab>Vote</Tab>
+          <Tab>{translations.t("borrow")}</Tab>
+          <Tab>{translations.t("pool")}</Tab>
+          <Tab>{translations.t("liquidate")}</Tab>
+          <Tab>{translations.t("vote")}</Tab>
         </TabList>
     
         <TabPanel>

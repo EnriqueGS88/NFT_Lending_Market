@@ -16,7 +16,7 @@ declare const window: any;
 function App() {
   // store greeting in local state
   const [greeting, setGreetingValue] = useState()
-  const [isConnectionSuccess, setConnectionSuccess] = useState(false);
+  const [isConnectionSuccess, setConnectionSuccess] = useState(window.ethereum ? true : false);
   const [isConnectionFailed, setConnectionFailed] = useState(false);
   const [myAddress, setMyAddress] = useState('');
 

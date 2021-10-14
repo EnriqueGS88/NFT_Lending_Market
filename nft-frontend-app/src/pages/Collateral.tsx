@@ -1,9 +1,13 @@
 import { Button, ToastMessage } from 'rimble-ui';
 import { AccountProps } from '../components/Tabs';
+import { useTranslation } from "react-i18next";
 
 declare const window: any;  
 function Collateral(props: AccountProps) {
 
+    const translations = useTranslation("translations");
+
+    
     function depositNFT() {
         window.toastProvider.addMessage("Implementing...", {
             secondaryMessage: "This functionality will be available soon",
@@ -13,19 +17,19 @@ function Collateral(props: AccountProps) {
 
     return (
         <div>
-            <h3>Deposit your Collateral</h3>
+            <h3>{translations.t("depositCollateral")}</h3>
             {props.account !== '' &&
                 <div>
                     <p>Hi {props.account} !</p>
-                    <p>You don't have any NFT deposited</p>
-                    <Button size={'medium'} onClick={()=> depositNFT()}>Deposit</Button>
+                    <p>{translations.t("noNFT")}</p>
+                    <Button size={'medium'} onClick={()=> depositNFT()}>{translations.t("deposit")}</Button>
 
                     <ToastMessage.Provider ref={(node: any) => (window.toastProvider = node)} />
 
                 </div>
             }
             {props.account === '' &&
-                <p>Connect with your Metamask Wallet</p>
+                <p>{translations.t("connectMetamask")}</p>
             }
 
         </div>
