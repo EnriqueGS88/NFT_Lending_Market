@@ -13,7 +13,7 @@ function Pool(props: AccountProps) {
 
     const translations = useTranslation("translations");
 
-    
+ 
     useEffect(() => {
         setPoolBalance(0);
         setMyPntkBalance(0);
@@ -45,7 +45,7 @@ function Pool(props: AccountProps) {
                     <h6>{translations.t("pntkBalance", { pntkBalance: pntkMyBalance }) }</h6>
                 <p>{translations.t("depositEthReceivePntk")}</p>
                     <Box>
-                        <Field label={translations.t("ethAvailableDeposit")}>
+                        <Field label={translations.t("ethAvailableDeposit", {eth: props.ethBalance})}>
                         <Input
                             type="number"
                             min={0}

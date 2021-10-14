@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 
 export interface AccountProps {
   account: string,
+  ethBalance: number,
   getAccount?: any,
 }
 

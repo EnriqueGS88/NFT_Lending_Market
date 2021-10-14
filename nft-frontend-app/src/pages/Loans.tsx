@@ -48,7 +48,7 @@ function Loans(props: AccountProps) {
                     </div>
                     <div>
                     <Box>
-                        <Field label={"You have "+calculateAvailableToBorrow()+ "ETH available to borrow"}>
+                        <Field label={"You have "+calculateAvailableToBorrow()+ " ETH available to borrow"}>
                         <Input
                             type="number"
                             min={0}
@@ -80,7 +80,7 @@ function Loans(props: AccountProps) {
 
                             <Box p={4} mb={3}>
                                 <Heading.h3>{translations.t("confirmLoan")}</Heading.h3>
-                            <Text>{translations.t("sureToBorrow", { quantity: ethToBorrow })}</Text>
+                            <Text>{translations.t("sureToBorrow", { quantity: ethToBorrow })}Are you sure you want to borrow {ethToBorrow} ETH?</Text>
                             </Box>
 
                             <Flex

@@ -19,13 +19,17 @@ function App() {
   const [isConnectionSuccess, setConnectionSuccess] = useState(window.ethereum ? true : false);
   const [isConnectionFailed, setConnectionFailed] = useState(false);
   const [myAddress, setMyAddress] = useState('');
+  const [ethBalance, setEthBalance] = useState(0);
 
 
   const getMyAccount = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "rinkeby");
     const signer = provider.getSigner();
     const address = await signer.getAddress();
+    const balanceInfo = await provider.getBalance(address);
+    const balanceEth = Number(ethers.BigNumber.from(balanceInfo).toString()) / Math.pow(10, 18);
     setMyAddress(address);
+    setEthBalance(balanceEth);
   }
 
   useEffect(() => {
@@ -53,6 +57,16 @@ function App() {
       }
     }    
   }
+
+  // async function getBalance() {
+  //     if (typeof window.ethereum !== 'undefined') {
+  //         const provider = new ethers.providers.Web3Provider(window.ethereum, "rinkeby");
+  //         const signer = provider.getSigner();
+  //         const address = await signer.getAddress();
+  //         const balanceInfo = await provider.getBalance(address);
+  //         const balanceEth = Number(ethers.BigNumber.from(balanceInfo).toString()) / Math.pow(10, 18);
+  //     }
+  // }
 
   // call the smart contract, send an update
   async function setGreeting() {
@@ -91,7 +105,7 @@ function App() {
 
       {console.log("HOLI", myAddress)}
       <Header setConnectionSuccess={setConnectionSuccess} setConnectionFailed={setConnectionFailed}></Header>
-      <HeaderTabs account={myAddress} getAccount={getMyAccount} />
+      <HeaderTabs account={myAddress} ethBalance={ethBalance} getAccount={getMyAccount} />
       
     </div>
   );
