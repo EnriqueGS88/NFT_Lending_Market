@@ -8,6 +8,7 @@ import HeaderTabs from './components/Tabs';
 
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
 import { Web3Provider } from '@ethersproject/providers';
+import { getABI } from './blockchain/getAbi';
 
 // Update with the contract address logged out to the CLI when it was deployed 
 const greeterAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
@@ -16,27 +17,44 @@ declare const window: any;
 function App() {
   // store greeting in local state
   const [greeting, setGreetingValue] = useState()
-  const [isConnectionSuccess, setConnectionSuccess] = useState(window.ethereum ? true : false);
+  const [isConnectionSuccess, setConnectionSuccess] = useState(false);
   const [isConnectionFailed, setConnectionFailed] = useState(false);
   const [myAddress, setMyAddress] = useState('');
   const [ethBalance, setEthBalance] = useState(0);
 
-
   const getMyAccount = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum, "rinkeby");
     const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    const balanceInfo = await provider.getBalance(address);
-    const balanceEth = Number(ethers.BigNumber.from(balanceInfo).toString()) / Math.pow(10, 18);
-    setMyAddress(address);
-    setEthBalance(balanceEth);
+    try {
+      const address = await signer.getAddress();
+      const balanceInfo = await provider.getBalance(address);
+      const balanceEth = Number(ethers.BigNumber.from(balanceInfo).toString()) / Math.pow(10, 18);
+      setMyAddress(address);
+      setEthBalance(balanceEth);
+      setConnectionSuccess(true);
+    } catch {
+      setConnectionSuccess(false);
+    }
+  }
+
+  const getBalanceToken = async () => {
+    const ApiKeyToken = '73T2GI2P7GWCFGFGIAJ1VSJCUXG2TDDXES';
+    const SmartContractAddress = '0xdf032bc4b9dc2782bb09352007d4c57b75160b15';
+    const contractAbi = await getABI(ApiKeyToken, SmartContractAddress);
+    const ABI = JSON.parse(contractAbi);
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "rinkeby");
+    const contract = new ethers.Contract(SmartContractAddress, ABI, provider);
+    const balance = (await contract.balanceOf(myAddress)).toString();
+    console.log("balance", balance);
   }
 
   useEffect(() => {
-    if (isConnectionSuccess) {
-      getMyAccount();
-    }
-    
+    getBalanceToken();
+  }, [])
+
+  useEffect(() => {
+    getMyAccount();
   }, [isConnectionSuccess])
 
   // request access to the user's MetaMask account
@@ -103,7 +121,6 @@ function App() {
         />
       }
 
-      {console.log("HOLI", myAddress)}
       <Header setConnectionSuccess={setConnectionSuccess} setConnectionFailed={setConnectionFailed}></Header>
       <HeaderTabs account={myAddress} ethBalance={ethBalance} getAccount={getMyAccount} />
       
