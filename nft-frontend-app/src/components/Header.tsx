@@ -2,6 +2,7 @@ import { MetaMaskButton } from 'rimble-ui';
 import colors from '../config/colors';
 import LanguageSelectionConnected from '../LanguageSelection/LanguageSelection.connected';
 import { useTranslation } from "react-i18next";
+import { useEffect } from 'react';
 
 declare const window: any;
 interface Props {
@@ -13,19 +14,20 @@ function Header(props: Props) {
     const translations = useTranslation("translations");
 
     async function connectWithMetamask() {
-        const {setConnectionSuccess, setConnectionFailed} = props;
-        if (window.ethereum) {
-          try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            setConnectionSuccess(true);
-          } catch (error:any) {
-            if (error.code === 4001) {
-              // User rejected request
-            }
-            setConnectionFailed(true);
+      const {setConnectionSuccess, setConnectionFailed} = props;
+      if (window.ethereum) {
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          setConnectionSuccess(true);
+        } catch (error:any) {
+          if (error.code === 4001) {
+            // User rejected request
           }
+          setConnectionFailed(true);
         }
       }
+    }
+  
 
     return (
       <div>
