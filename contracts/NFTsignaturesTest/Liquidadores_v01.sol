@@ -62,7 +62,7 @@ contract Auction is IERC721Receiver {
             maxBid: 0,
             maxBidUser: address(0),
             isActive: true,
-            bidAmouts: new uint256[](0),
+            bidAmounts: new uint256[](0),
             users: new address[](0)
         });
 
@@ -74,6 +74,8 @@ contract Auction is IERC721Receiver {
 
 
     }
+
+
 
     /*
         Called by Liquidators. Bid on NFT owned by the pool
@@ -88,7 +90,10 @@ contract Auction is IERC721Receiver {
         if (bids[_nft][_tokenId][msg.sender] > 0) {
 
             // If bidding address is not 0, call value of the mapping
-
+            
+            
+            // Calls delegate calls
+            // Solidity Part II - 8/129
             (bool success, ) = msg.sender.call{value: bids[_nft][_tokenId][msg.sender]}("");
             require(success);
         }
@@ -134,8 +139,8 @@ contract Auction is IERC721Receiver {
 
             (bool success, ) = auction.seller.call{value: auction.maxBid}("");
             require(success);
-            for (uint256 i=0; i<auction.users.length; i++) { // Check user by user if it's the maxBidUser ??
-                if(auction.users[i]) != auction.maxBidUser) {
+            for (uint256 i = 0; i < auction.users.length; i++) { // Check user by user if it's the maxBidUser ??
+                if(auction.users[i] != auction.maxBidUser) {
                     (success,) = auction.users[i].call{
                         value: bids[_nft][_tokenId][auction.users[i]]
                     }("");
@@ -157,7 +162,7 @@ contract Auction is IERC721Receiver {
         auction.isActive = false;
         bool success;
         for (uint256 i = 0; i < auction.users.length; i++) {
-            (success, ) = auction.users.[i].call{value: bids[_nft][_tokenId][auction.users[i]]}("");
+            (success, ) = auction.users[i].call{value: bids[_nft][_tokenId][auction.users[i]]}("");
             require(success);
         }
         ERC721(_nft).safeTransferFrom(address(this),auction.seller,_tokenId);
