@@ -10,6 +10,9 @@ import { Web3Provider } from '@ethersproject/providers';
 
 // Update with the contract address logged out to the CLI when it was deployed 
 const greeterAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+//TODO: store addresses SC project
+const loadNFTAddress = "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98";
+const createNFT = "0x0bEE0f0dBa0890E9A510AaD08D023A691fA69eA3";
 declare const window: any;
 
 function App() {
