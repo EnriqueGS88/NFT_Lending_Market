@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { ToastMessage } from 'rimble-ui';
-import { BrowserRouter } from 'react-router-dom';
 import Header from './components/Header';
 import HeaderTabs from './components/Tabs';
-import dotenv from "dotenv";
+import Footer from './components/Footer';
 
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
 import { Web3Provider } from '@ethersproject/providers';
 import { getABI } from './blockchain/getAbi';
 import { Protocol } from './dtos/protocol';
 
-dotenv.config();
 
 // Update with the contract address logged out to the CLI when it was deployed 
 const greeterAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+//TODO: store addresses SC project
+const loadNFTAddress = "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98";
+const createNFT = "0x0bEE0f0dBa0890E9A510AaD08D023A691fA69eA3";
 declare const window: any;
 
 function App() {
@@ -132,7 +133,7 @@ function App() {
 
       <Header account={myAddress} setConnectionSuccess={setConnectionSuccess} setConnectionFailed={setConnectionFailed}></Header>
       <HeaderTabs account={myAddress} ethBalance={ethBalance} getAccount={getMyAccount} protocolVariables={protocolVariables} loanContract={loanContract} provider={provider}/>
-      
+      <Footer/>
     </div>
   );
 }
