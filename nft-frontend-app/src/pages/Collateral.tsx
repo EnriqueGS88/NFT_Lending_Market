@@ -1,26 +1,13 @@
-import React, {useEffect, useState }  from 'react';
-import { ethers } from 'ethers';
 import { Button, ToastMessage } from 'rimble-ui';
+import { AccountProps } from '../components/Tabs';
+import { useTranslation } from "react-i18next";
 
-declare const window: any;
-function Collateral() {
-    const [myAddress, setMyAddress] = useState('');
+declare const window: any;  
+function Collateral(props: AccountProps) {
 
-    useEffect(() => {
-        const getMyAccount = async () => {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            try{
-            const address = await signer.getAddress();
-            setMyAddress(address);
-            }
-            catch(error){
-                setMyAddress('');
-            }
-        }
-        getMyAccount();
-    },[]);
+    const translations = useTranslation("translations");
 
+    
     function depositNFT() {
         window.toastProvider.addMessage("Implementing...", {
             secondaryMessage: "This functionality will be available soon",
@@ -30,19 +17,19 @@ function Collateral() {
 
     return (
         <div>
-            <h3>Deposit your Collateral</h3>
-            {myAddress !== '' &&
+            <h3>{translations.t("depositCollateral")}</h3>
+            {props.account !== '' &&
                 <div>
-                    <p>Hi {myAddress} !</p>
-                    <p>You don't have any NFT deposited</p>
-                    <Button size={'medium'} onClick={()=> depositNFT()}>Deposit</Button>
+                    <p>Hi {props.account} !</p>
+                    <p>{translations.t("noNFT")}</p>
+                    <Button size={'medium'} onClick={()=> depositNFT()}>{translations.t("deposit")}</Button>
 
                     <ToastMessage.Provider ref={(node: any) => (window.toastProvider = node)} />
 
                 </div>
             }
-            {myAddress === '' &&
-                <p>Connect with your Metamask Wallet</p>
+            {props.account === '' &&
+                <p>{translations.t("connectMetamask")}</p>
             }
 
         </div>

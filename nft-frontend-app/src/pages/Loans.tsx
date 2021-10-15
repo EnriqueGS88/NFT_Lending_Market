@@ -1,29 +1,19 @@
 import React, {useEffect, useState }  from 'react';
-import { ethers } from 'ethers';
 import { Button, ToastMessage, Box, Flex, Field, Input, Text, Modal, Card, Heading } from 'rimble-ui';
 import colors from '../config/colors';
+import { AccountProps } from '../components/Tabs';
+import { useTranslation } from "react-i18next";
 
 declare const window: any;
-function Loans() {
-    const [myAddress, setMyAddress] = useState('');
+function Loans(props: AccountProps) {
     const [collateralBalance, setCollateralBalance] = useState(0);
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
 
+    const translations = useTranslation("translations");
 
+    
     useEffect(() => {
-        const getMyAccount = async () => {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            try{
-                const address = await signer.getAddress();
-                setMyAddress(address);
-            }
-            catch(error){
-                setMyAddress('');
-            }
-        }
-        getMyAccount();
         setCollateralBalance(0);
     },[]);
 
@@ -49,16 +39,16 @@ function Loans() {
 
     return (
         <div>
-            <h3>Borrow ETH</h3>
-            {myAddress !== '' &&
+            <h3>{translations.t("borrowETH")}</h3>
+            {props.account !== '' &&
                 <div>
                     <div>
-                    <p>Hi {myAddress} !</p>
-                    <p>Your collateral balance: {collateralBalance} ETH</p>
+                    <p>{props.account} !</p>
+                    <p>{translations.t("collateralBalance", { collateralBalance: collateralBalance }) }</p>
                     </div>
                     <div>
                     <Box>
-                        <Field label={"You have "+calculateAvailableToBorrow()+ "ETH available to borrow"}>
+                        <Field label={"You have "+calculateAvailableToBorrow()+ " ETH available to borrow"}>
                         <Input
                             type="number"
                             min={0}
@@ -71,7 +61,7 @@ function Loans() {
                         />
                         </Field>
                     </Box>
-                    <Button size={'medium'} onClick={()=> openModal()}>Borrow</Button>
+                    <Button size={'medium'} onClick={()=> openModal()}>{translations.t("borrow")}</Button>
                     </div>
 
                     <Modal isOpen={isModalOpen}>
@@ -89,8 +79,8 @@ function Loans() {
                             />
 
                             <Box p={4} mb={3}>
-                                <Heading.h3>Confirm the loan</Heading.h3>
-                                <Text>Are you sure you want to borrow {ethToBorrow} ETH?</Text>
+                                <Heading.h3>{translations.t("confirmLoan")}</Heading.h3>
+                            <Text>{translations.t("sureToBorrow", { quantity: ethToBorrow })}Are you sure you want to borrow {ethToBorrow} ETH?</Text>
                             </Box>
 
                             <Flex
@@ -100,8 +90,8 @@ function Loans() {
                             borderColor={"#E8E8E8"}
                             justifyContent={"flex-end"}
                             >
-                            <Button.Outline onClick={closeModal}>Cancel</Button.Outline>
-                            <Button ml={3} onClick={()=> borrow()}>Confirm</Button>
+                            <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
+                            <Button ml={3} onClick={()=> borrow()}>{translations.t("confirm")}</Button>
                             </Flex>
                         </Card>
                     </Modal>
@@ -110,8 +100,8 @@ function Loans() {
 
                 </div>
             }
-            {myAddress === '' &&
-                <p>Connect with your Metamask Wallet</p>
+            {props.account === '' &&
+                <p>{translations.t("connectMetamask")}</p>
             }
 
         </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { ToastMessage } from 'rimble-ui';
 import Header from './components/Header';
@@ -6,6 +6,7 @@ import HeaderTabs from './components/Tabs';
 import Footer from './components/Footer';
 
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
+import { Web3Provider } from '@ethersproject/providers';
 
 // Update with the contract address logged out to the CLI when it was deployed 
 const greeterAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
@@ -14,8 +15,28 @@ declare const window: any;
 function App() {
   // store greeting in local state
   const [greeting, setGreetingValue] = useState()
-  const [isConnectionSuccess, setConnectionSuccess] = useState(false);
+  const [isConnectionSuccess, setConnectionSuccess] = useState(window.ethereum ? true : false);
   const [isConnectionFailed, setConnectionFailed] = useState(false);
+  const [myAddress, setMyAddress] = useState('');
+  const [ethBalance, setEthBalance] = useState(0);
+
+
+  const getMyAccount = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "rinkeby");
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    const balanceInfo = await provider.getBalance(address);
+    const balanceEth = Number(ethers.BigNumber.from(balanceInfo).toString()) / Math.pow(10, 18);
+    setMyAddress(address);
+    setEthBalance(balanceEth);
+  }
+
+  useEffect(() => {
+    if (isConnectionSuccess) {
+      getMyAccount();
+    }
+    
+  }, [isConnectionSuccess])
 
   // request access to the user's MetaMask account
   async function requestAccount() {
@@ -35,6 +56,16 @@ function App() {
       }
     }    
   }
+
+  // async function getBalance() {
+  //     if (typeof window.ethereum !== 'undefined') {
+  //         const provider = new ethers.providers.Web3Provider(window.ethereum, "rinkeby");
+  //         const signer = provider.getSigner();
+  //         const address = await signer.getAddress();
+  //         const balanceInfo = await provider.getBalance(address);
+  //         const balanceEth = Number(ethers.BigNumber.from(balanceInfo).toString()) / Math.pow(10, 18);
+  //     }
+  // }
 
   // call the smart contract, send an update
   async function setGreeting() {
@@ -70,8 +101,10 @@ function App() {
           closeElem={true}
         />
       }
+
+      {console.log("HOLI", myAddress)}
       <Header setConnectionSuccess={setConnectionSuccess} setConnectionFailed={setConnectionFailed}></Header>
-      <HeaderTabs />
+      <HeaderTabs account={myAddress} ethBalance={ethBalance} getAccount={getMyAccount} />
       <Footer/>
       
     </div>

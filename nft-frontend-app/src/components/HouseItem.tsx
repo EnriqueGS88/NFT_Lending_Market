@@ -2,7 +2,8 @@ import React, {useEffect, useState }  from 'react';
 import { Redirect } from 'react-router';
 import { Card, Button, Modal, ToastMessage, Flex, Box, Heading, Text} from 'rimble-ui';
 import colors from '../config/colors';
-import {House} from '../dtos/houses';
+import { House } from '../dtos/houses';
+import { useTranslation } from "react-i18next";
 
 
 declare const window: any;
@@ -16,6 +17,8 @@ interface Props {
 
 function HouseItem(props: Props) {
     const [isModalOpen, setModalOpen] = useState(false);
+
+    const translations = useTranslation("translations");
 
     function closeModal(){
         setModalOpen(false);
@@ -44,10 +47,10 @@ return (
                         <img src={image} alt="imageHouse" width="500" height="400" /></a>
                     </td>
                     <td>
-                        <h6>Location: {location}</h6> 
-                        <h6>Price: {price} . Contact: {contact} </h6> 
+                        <h6>{translations.t("location")}: {location}</h6> 
+                        <h6>{translations.t("price")}: {price} . {translations.t("contact")}: {contact} </h6> 
                         <div style={styles.description}><p>{description}</p></div>
-                        <Button size={'medium'} onClick={()=> openModal()}>Liquidate</Button>
+                        <Button size={'medium'} onClick={()=> openModal()}>{translations.t("liquidate")}</Button>
                     </td>
             </tr></table>
         </Card>
@@ -66,8 +69,8 @@ return (
                 />
 
                 <Box p={4} mb={3}>
-                    <Heading.h3>Confirm the liquidation</Heading.h3>
-                    <Text>Are you sure you want to liquidate the house: {title}?</Text>
+                    <Heading.h3>{translations.t("confirmLiquidation")}</Heading.h3>
+                    <Text>{translations.t("sureToLiquidate")}: {title}?</Text>
                 </Box>
 
                 <Flex
@@ -77,8 +80,8 @@ return (
                 borderColor={"#E8E8E8"}
                 justifyContent={"flex-end"}
                 >
-                <Button.Outline onClick={closeModal}>Cancel</Button.Outline>
-                <Button ml={3} onClick={()=> liquidate()}>Confirm</Button>
+                <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
+                <Button ml={3} onClick={()=> liquidate()}>{translations.t("confirm")}</Button>
                 </Flex>
             </Card>
         </Modal>

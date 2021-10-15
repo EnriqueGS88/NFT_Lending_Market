@@ -1,27 +1,32 @@
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { AccountProps } from '../components/Tabs';
 import colors from '../config/colors';
 import Collateral from './Collateral';
 import Loans from './Loans';
+import { useTranslation } from "react-i18next";
 
-function Borrow() {
+
+function Borrow(props: AccountProps) {
+
+    const translations = useTranslation("translations");
 
     return (
         <div>
-            <h1>Borrow</h1>
-            <p>In order to apply for a Loan you first have to deposit a real state NFT as a collateral.</p>
-            <p> Then borrow up to 100% the value of your collateral in ETH.</p>
+            <h1>{translations.t("borrow")}</h1>
+            <p>{translations.t("depositFirst")}</p>
+            <p>{translations.t("afterDeposit")}</p>
             <Tabs indicatorColor={colors.bluePurple}>
                 <TabList className={styles.tabs}>
-                    <Tab>Collateral</Tab>
-                    <Tab>Loans</Tab>
+                    <Tab>{translations.t("collateral")}</Tab>
+                    <Tab>{translations.t("loans")}</Tab>
                 </TabList>
             
                 <TabPanel className={styles.tabs}>
-                    <Collateral />
+                    <Collateral {...props}/>
                 </TabPanel>
                 <TabPanel>
-                    <Loans />
+                    <Loans {...props}/>
                 </TabPanel>
             </Tabs>
         </div>
