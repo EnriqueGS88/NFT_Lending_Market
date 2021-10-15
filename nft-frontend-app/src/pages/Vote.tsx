@@ -5,22 +5,20 @@ import { AccountProps } from '../components/Tabs';
 import { useTranslation } from "react-i18next";
 
 declare const window: any;
+
+export interface VoteProps {
+    account: string,
+    ethBalance: number,
+    protocolVariables: Protocol,
+}
+
 function Vote(props: AccountProps) {
     const [pntkMyBalance, setMyPntkBalance] = useState(0);
-    const [protocolVariables, setProtocolVariables] = useState<Protocol>();
 
     const translations = useTranslation("translations");
 
     useEffect(() => {
         setMyPntkBalance(0);
-        const protocol: Protocol = {
-            interestRate: 1,
-            minimumPaybackMonths: 12,
-            maximumPaybackMonths: 120,
-            conditionsReviewPeriod: 'monthly',
-            votePeriod: 5,
-        }
-        setProtocolVariables(protocol);
     },[]);
 
     return (
@@ -34,23 +32,23 @@ function Vote(props: AccountProps) {
                 <div>
                     <div>
                         <h6>{translations.t("interestRate")}</h6>
-                        <p>{protocolVariables?.interestRate} %</p>
+                        <p>{props.protocolVariables?.interestRate} %</p>
                     </div>
                     <div>
                         <h6>{translations.t("minimumPayback")}</h6>
-                        <p>{protocolVariables?.minimumPaybackMonths}</p>
+                        <p>{props.protocolVariables?.minimumPaybackMonths}</p>
                     </div>
                     <div>
                         <h6>{translations.t("maximumPayback")}</h6>
-                        <p>{protocolVariables?.maximumPaybackMonths}</p>
+                        <p>{props.protocolVariables?.maximumPaybackMonths}</p>
                     </div>
                     <div>
                         <h6>{translations.t("conditionsReview")}</h6>
-                        <p>{protocolVariables?.conditionsReviewPeriod}</p>
+                        <p>{props.protocolVariables?.conditionsReviewPeriod}</p>
                     </div>
                     <div>
                         <h6>{translations.t("votePeriod")}</h6>
-                        <p>{protocolVariables?.votePeriod} %</p>
+                        <p>{props.protocolVariables?.votePeriod} %</p>
                     </div>
                 </div>
             </div>

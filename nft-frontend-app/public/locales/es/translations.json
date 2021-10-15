@@ -39,5 +39,8 @@
     "voteProtocol": "Vota por el protocolo",
     "voteRequirement": "Sólo Puede votar si tiene PNTK tokens",
     "connectWithMetamask": "Connectar con MetaMask",
-    "ethAvailableDeposit": "Tiene {{eth}} ETH disponible para dipositar"
+    "ethAvailableDeposit": "Tiene {{eth}} ETH disponible para dipositar",
+    "addCollateral": "Añadir colateral",
+    "removeCollateral": "Retirar colateral",
+    "cancelCollateral": "Cancelar deposito"
 }

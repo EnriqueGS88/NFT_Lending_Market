@@ -1,0 +1,58 @@
+import React, {useState, useEffect} from 'react';
+import { Button, Box, Field, Input } from 'rimble-ui';
+
+import { useTranslation } from "react-i18next";
+
+import { ethers } from 'ethers';
+import { getABI } from "../blockchain/getAbi";
+import { Protocol } from '../dtos/protocol';
+
+export interface NFTProps {
+    key: number,
+    nft: any,
+    protocolVariables: Protocol,
+    depositNFT: Function,
+}
+
+declare const window: any;
+function NFT(props: NFTProps) {
+
+    const translations = useTranslation("translations");
+
+    const [NFTmetadata, setNFTmetadata] = useState(JSON.parse(props.nft.metadata));
+    const [loanAmount, setLoanAmount] = useState(0);
+    
+    return (
+        <>
+            {console.log("nft", JSON.parse(props.nft.metadata))}
+            {console.log("image", JSON.parse(props.nft.metadata).image)}
+            <div className="nft" style={{border: "3px solid black", margin: "10px"}}>
+                <div>
+                    <h4>Token ID: {props.nft.token_id} </h4>
+                    {/* <img src={NFTmetadata.image} /> */}
+                </div>
+                <form onSubmit={async (event) => {
+                    event.preventDefault();
+                    await props.depositNFT(loanAmount , props.nft.token_id)}
+                } >
+                    <label>{"Set how much ETH would you like"} </label> 
+                    <input
+                        type="number"
+                        min={0.01}
+                        step={0.01}
+                        onChange={(e:any) => {
+                            setLoanAmount(e.target.value);
+                        }}
+                        value={loanAmount}
+                        required={true}
+                    />
+                    <Button type="submit">{translations.t("deposit")}</Button>
+                </form>
+                <div>
+                </div>
+            </div>
+        </>
+    );
+  }
+
+export default NFT;

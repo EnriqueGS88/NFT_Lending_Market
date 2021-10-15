@@ -4,10 +4,13 @@ import './index.css';
 import "./i18n";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { MoralisProvider } from 'react-moralis';
 
 ReactDOM.render(
   <React.Suspense fallback="">
-    <App />
+    <MoralisProvider appId="V7cPQf88I0IIMi8z98woK5IvxfK5XazPMsVK3Ol4" serverUrl="https://ckas7mduquzz.grandmoralis.com:2053/server">
+          <App />
+    </MoralisProvider>
   </React.Suspense>,
   document.getElementById('root')
 );

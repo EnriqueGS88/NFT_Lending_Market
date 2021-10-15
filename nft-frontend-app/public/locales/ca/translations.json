@@ -39,5 +39,8 @@
     "voteProtocol": "Vota pel protocol",
     "voteRequirement": "Només pot votar si té PNTK tokens",
     "connectWithMetamask": "Connectarse amb MetaMask",
-    "ethAvailableDeposit": "Té {{eth}} ETH disponible per dipositar"
+    "ethAvailableDeposit": "Té {{eth}} ETH disponible per dipositar",
+    "addCollateral": "Afegir col·lateral",
+    "removeCollateral": "Retirar col·lateral",
+    "cancelCollateral": "Cancelar diposit"
 }

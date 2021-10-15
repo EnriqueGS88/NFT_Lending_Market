@@ -1,17 +1,18 @@
 import React, {useEffect, useState }  from 'react';
 import { Button, ToastMessage, Box, Flex, Field, Input, Text, Modal, Card, Heading } from 'rimble-ui';
 import colors from '../config/colors';
-import { AccountProps } from '../components/Tabs';
 import { useTranslation } from "react-i18next";
+import { BorrowProps } from './Borrow';
+
 
 declare const window: any;
-function Loans(props: AccountProps) {
+function Loans(props: BorrowProps) {
     const [collateralBalance, setCollateralBalance] = useState(0);
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
+    
 
     const translations = useTranslation("translations");
-
     
     useEffect(() => {
         setCollateralBalance(0);
@@ -43,7 +44,7 @@ function Loans(props: AccountProps) {
             {props.account !== '' &&
                 <div>
                     <div>
-                    <p>{props.account} !</p>
+                    <p></p>
                     <p>{translations.t("collateralBalance", { collateralBalance: collateralBalance }) }</p>
                     </div>
                     <div>

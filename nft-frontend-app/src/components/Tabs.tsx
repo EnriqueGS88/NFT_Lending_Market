@@ -5,12 +5,17 @@ import 'react-tabs/style/react-tabs.css';
 import Vote from '../pages/Vote';
 import Liquidate from '../pages/Liquidate';
 import { useTranslation } from "react-i18next";
+import { Protocol } from '../dtos/protocol';
 
 export interface AccountProps {
   account: string,
   ethBalance: number,
+  protocolVariables: Protocol,
+  loanContract: any,
+  provider: any,
   getAccount?: any,
 }
+
 
 function HeaderTabs(props: AccountProps) {
 

@@ -6,8 +6,9 @@ import { useEffect } from 'react';
 
 declare const window: any;
 interface Props {
-    setConnectionSuccess: Function;
-    setConnectionFailed: Function;
+  account: string;
+  setConnectionSuccess: Function;
+  setConnectionFailed: Function;
 } 
 
 function Header(props: Props) {
@@ -53,7 +54,7 @@ function Header(props: Props) {
           
           <div style={styles.headerItem}>
             {
-              !window.ethereum ?
+              !props.account ?
                 <MetaMaskButton size="medium" className="MetamaskButton"
                 onClick={() => connectWithMetamask()}>{translations.t("connectWithMetamask")}</MetaMaskButton>
                 : null
