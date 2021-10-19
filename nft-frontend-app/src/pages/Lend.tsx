@@ -3,10 +3,11 @@ import { AccountProps } from '../components/Tabs';
 import colors from '../config/colors';
 import { useTranslation } from "react-i18next";
 import { Button, ToastMessage, Box, Flex, Field, Input, Text, Modal, Card, Heading } from 'rimble-ui';
-
+import { Loans } from '../dtos/loans';
 import Moralis from "moralis";
 
 import { Protocol } from '../dtos/protocol';
+import LoanItem from '../components/LoanItem';
 
 export interface BorrowProps {
     account: string,
@@ -23,6 +24,7 @@ function Lend(props: AccountProps) {
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
     const [loans, setLoans] = useState<any[any]>([]);
+    const [loansElement, setLoansELement] = useState<JSX.Element[]>();
     const [isLoading, setIsLoading] = useState(false);
     
 
@@ -43,35 +45,51 @@ function Lend(props: AccountProps) {
     const getLoans = async () => {        
         const totalLoansRequests = (await props.loanContract.totalLoanRequests()).toString();
 
-        const loansSC:any = [];
+        const loansSC: Loans[] = [];
         for (let i = 0; i < totalLoansRequests; ++i) {
             const loansRequests = await props.loanContract.allLoanRequests(i);
-            loansSC.push(loansRequests);
+            const loan: Loans = {
+                loanID: loansRequests["loanID"],
+                lender: loansRequests["lender"],
+                borrower: loansRequests["borrower"],
+                smartContractAddressOfNFT: loansRequests["smartContractAddressOfNFT"],
+                tokenIdNFT: loansRequests["tokenIdNFT"],
+                loanAmount: loansRequests["loanAmount"],
+                interestAmount: loansRequests["interestAmount"],
+                maximumPeriod: loansRequests["maximumPeriod"],
+                endLoanTimeStamp: loansRequests["endLoanTimeStamp"],
+            }
+            loansSC.push(loan);
         }
         console.log("loans", loansSC)
         setIsLoading(false);
-        setLoans(loansSC);
+        const loansItems = [] as JSX.Element[];
+        const loansAvailable = deleteLoansWithLenderAndMine(loansSC);
+        loansAvailable.forEach((loanAvailable) => {
+            loansItems.push(
+                <LoanItem
+                  key={loanAvailable.loanID.toString()}
+                  loan={loanAvailable}
+                />);
+        });
+        setLoansELement(loansItems);
+        setLoans(loansAvailable);
+    }
+    function deleteLoansWithLenderAndMine(loans:  Loans[]){
+        const loansAvailable: Loans[] = [];
+        for (let i = 0; i < loans.length; ++i) {
+            if(loans[i].lender === "0x0000000000000000000000000000000000000000" && loans[i].borrower !== props.account){
+                loansAvailable.push(loans[i]);
+            }
+        }
+        return loansAvailable;
     }
 
-    function borrow() {
-        window.toastProvider.addMessage("Implementing...", {
-            secondaryMessage: "This functionality will be available soon",
-            colorTheme: "dark"
-        });
-        closeModal();
-    }
 
     function calculateAvailableToBorrow() {
         return collateralBalance;
     }
 
-    function closeModal(){
-        setModalOpen(false);
-    }
-    
-    function openModal(){
-        setModalOpen(true);
-    };
 
     return (
         <div>
@@ -79,60 +97,11 @@ function Lend(props: AccountProps) {
             {props.account !== '' &&
                 <div>
                     <div>
-                    <p></p>
+                    <p>List of Loans</p> 
+                    <ul style={styles.list}>{loansElement}</ul>
                     <p>{translations.t("collateralBalance", { collateralBalance: collateralBalance }) }</p>
                     </div>
-                    <div>
-                    <Box>
-                        <Field label={"You have "+calculateAvailableToBorrow()+ " ETH available to borrow"}>
-                        <Input
-                            type="number"
-                            min={0}
-                            step={0.01}
-                            onChange={(e:any) => {
-                                setEthToBorrow(e.target.value);
-                            }}
-                            value={ethToBorrow}
-                            required={true}
-                        />
-                        </Field>
-                    </Box>
-                    <Button size={'medium'} onClick={()=> openModal()}>{translations.t("borrow")}</Button>
-                    </div>
-
-                    <Modal isOpen={isModalOpen}>
-                        <Card width={"420px"} p={0}>
-                            <Button.Text
-                                icononly
-                                icon={"Close"}
-                                color={"moon-gray"}
-                                position={"absolute"}
-                                top={0}
-                                right={0}
-                                mt={3}
-                                mr={3}
-                                onClick={closeModal}
-                            />
-
-                            <Box p={4} mb={3}>
-                                <Heading.h3>{translations.t("confirmLoan")}</Heading.h3>
-                            <Text>{translations.t("sureToBorrow", { quantity: ethToBorrow })}Are you sure you want to borrow {ethToBorrow} ETH?</Text>
-                            </Box>
-
-                            <Flex
-                            px={4}
-                            py={3}
-                            borderTop={1}
-                            borderColor={"#E8E8E8"}
-                            justifyContent={"flex-end"}
-                            >
-                            <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
-                            <Button ml={3} onClick={()=> borrow()}>{translations.t("confirm")}</Button>
-                            </Flex>
-                        </Card>
-                    </Modal>
                     
-                    <ToastMessage.Provider ref={(node: any) => (window.toastProvider = node)} />
 
                 </div>
             }
@@ -148,6 +117,9 @@ const styles = {
     box: {
         textAlign: 'center',
         backgroundColor: colors.bluePurple
+    },
+    list: {
+        listStyleType:"none",
     },
 }
 export default Lend;

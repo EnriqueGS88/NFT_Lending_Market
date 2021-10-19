@@ -1,10 +1,10 @@
 import { ethers } from 'ethers';
 
-export interface Loan {
+export interface Loans {
     loanID: ethers.BigNumber;
     lender: string;
     borrower: string;
-    asmartContractAddressOfNFT: string;
+    smartContractAddressOfNFT: string;
     tokenIdNFT: number;
     loanAmount: ethers.BigNumber;     //Amount borrow + interest amount
     interestAmount: ethers.BigNumber; //Total amount of interest to pay at the end of the loan
