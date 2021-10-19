@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { ToastMessage } from 'rimble-ui';
@@ -5,30 +6,23 @@ import Header from './components/Header';
 import HeaderTabs from './components/Tabs';
 import Footer from './components/Footer';
 
-import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
-import { Web3Provider } from '@ethersproject/providers';
 import { getABI } from './blockchain/getAbi';
 import { Protocol } from './dtos/protocol';
 
-
-// Update with the contract address logged out to the CLI when it was deployed 
-const greeterAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
-//TODO: store addresses SC project
-const loadNFTAddress = "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98";
-const createNFT = "0x0bEE0f0dBa0890E9A510AaD08D023A691fA69eA3";
 declare const window: any;
 
 function App() {
-  // store greeting in local state
-  const [greeting,  ] = useState()
   const [isConnectionSuccess, setConnectionSuccess] = useState(false);
   const [isConnectionFailed, setConnectionFailed] = useState(false);
   const [myAddress, setMyAddress] = useState('');
   const [ethBalance, setEthBalance] = useState(0);
   const [loanContract, setLoanContract] = useState<any>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [mintNFTContract, setMintNFTContract] = useState<any>();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [provider, setProvider] = useState(new ethers.providers.Web3Provider(window.ethereum, "rinkeby"));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [protocolVariables, setProtocolVariables] = useState<Protocol>(
     {
       interestRate: 1,
@@ -80,7 +74,7 @@ function App() {
       const address = await signer.getAddress();
       const balanceInfo = await provider.getBalance(address);
       const balanceEth = Number(ethers.BigNumber.from(balanceInfo).toString()) / Math.pow(10, 18);
-      console.log("address", address)
+
       setMyAddress(address);
       setEthBalance(balanceEth);
       setConnectionSuccess(true);

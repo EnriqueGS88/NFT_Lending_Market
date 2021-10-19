@@ -1,22 +1,57 @@
-import React, {useEffect, useState }  from 'react';
-import { Button, ToastMessage, Box, Flex, Field, Input, Text, Modal, Card, Heading } from 'rimble-ui';
+import {useState, useEffect} from 'react';
+import { AccountProps } from '../components/Tabs';
 import colors from '../config/colors';
 import { useTranslation } from "react-i18next";
-import { BorrowProps } from './Borrow';
+import { Button, ToastMessage, Box, Flex, Field, Input, Text, Modal, Card, Heading } from 'rimble-ui';
 
+import Moralis from "moralis";
+
+import { Protocol } from '../dtos/protocol';
+
+export interface BorrowProps {
+    account: string,
+    loans: Array<any>,
+    protocolVariables: Protocol,
+    loanContract: any,
+    provider: any,
+}
 
 declare const window: any;
-function Loans(props: BorrowProps) {
+function Lend(props: AccountProps) {
+
     const [collateralBalance, setCollateralBalance] = useState(0);
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [loans, setLoans] = useState<any[any]>([]);
+    const [isLoading, setIsLoading] = useState(false);
     
 
     const translations = useTranslation("translations");
     
     useEffect(() => {
         setCollateralBalance(0);
+        try {
+            setIsLoading(true);
+            getLoans();
+        } catch {
+            setIsLoading(false);
+        }
     },[]);
+
+    
+
+    const getLoans = async () => {        
+        const totalLoansRequests = (await props.loanContract.totalLoanRequests()).toString();
+
+        const loansSC:any = [];
+        for (let i = 0; i < totalLoansRequests; ++i) {
+            const loansRequests = await props.loanContract.allLoanRequests(i);
+            loansSC.push(loansRequests);
+        }
+        console.log("loans", loansSC)
+        setIsLoading(false);
+        setLoans(loansSC);
+    }
 
     function borrow() {
         window.toastProvider.addMessage("Implementing...", {
@@ -40,7 +75,7 @@ function Loans(props: BorrowProps) {
 
     return (
         <div>
-            <h3>{translations.t("borrowETH")}</h3>
+            <h3>Lend ETH</h3>
             {props.account !== '' &&
                 <div>
                     <div>
@@ -115,4 +150,4 @@ const styles = {
         backgroundColor: colors.bluePurple
     },
 }
-export default Loans;
+export default Lend;

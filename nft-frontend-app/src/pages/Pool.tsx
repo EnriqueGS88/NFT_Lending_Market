@@ -1,5 +1,5 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, {useEffect, useState }  from 'react';
-import { ethers } from 'ethers';
 import { Button, ToastMessage, EthAddress, Box, Input, Field, Modal, Flex, Card, Heading, Text} from 'rimble-ui';
 import { AccountProps } from '../components/Tabs';
 import { useTranslation } from "react-i18next";

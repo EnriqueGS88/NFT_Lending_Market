@@ -1,5 +1,6 @@
-import React, {useEffect, useState }  from 'react';
-import { Redirect } from 'react-router';
+/* eslint-disable react/jsx-pascal-case */
+import { useState }  from 'react';
+
 import { Card, Button, Modal, ToastMessage, Flex, Box, Heading, Text} from 'rimble-ui';
 import colors from '../config/colors';
 import { House } from '../dtos/houses';
@@ -7,9 +8,6 @@ import { useTranslation } from "react-i18next";
 
 
 declare const window: any;
-declare const location: {
-    href: any
-};
 
 interface Props {
     house: House;

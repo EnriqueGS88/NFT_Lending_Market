@@ -1,6 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
-import { BorrowProps } from './Borrow';
 import Loader from "react-loader-spinner";
 
 import { ethers } from 'ethers';
@@ -18,7 +18,6 @@ export interface AddCollateralProps {
     isLoading: boolean,
 }
 
-declare const window: any;  
 function AddCollateral(props: AddCollateralProps) {
 
     const translations = useTranslation("translations");

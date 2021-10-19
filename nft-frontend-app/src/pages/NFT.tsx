@@ -1,10 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import { Button, Box, Field, Input } from 'rimble-ui';
+import React, {useState} from 'react';
+import { Button } from 'rimble-ui';
 
 import { useTranslation } from "react-i18next";
-
-import { ethers } from 'ethers';
-import { getABI } from "../blockchain/getAbi";
 import { Protocol } from '../dtos/protocol';
 
 export interface NFTProps {
@@ -14,11 +11,11 @@ export interface NFTProps {
     depositNFT: Function,
 }
 
-declare const window: any;
 function NFT(props: NFTProps) {
 
     const translations = useTranslation("translations");
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [NFTmetadata, setNFTmetadata] = useState(JSON.parse(props.nft.metadata));
     const [loanAmount, setLoanAmount] = useState(0);
     

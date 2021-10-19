@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
-import { BorrowProps } from './Borrow';
 import Loader from "react-loader-spinner";
-
-
-import { ethers } from 'ethers';
-import { getABI } from "../blockchain/getAbi";
 import { Protocol } from '../dtos/protocol';
 import Loan from './Loan';
 
@@ -18,9 +13,7 @@ export interface LoansProps {
     provider: any,
     loanContract: any
 }
-
-
-declare const window: any;  
+ 
 function RemoveCollateral(props: LoansProps) {
 
     const translations = useTranslation("translations");
@@ -41,6 +34,7 @@ function RemoveCollateral(props: LoansProps) {
         }) : [];
         setLoansPending(loansFiltered);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.account, props.loans])
     
 
