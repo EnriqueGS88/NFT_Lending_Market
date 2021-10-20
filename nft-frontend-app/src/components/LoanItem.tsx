@@ -11,6 +11,7 @@ declare const window: any;
 
 interface Props {
     loan: Loans;
+    loanContract: any,
 } 
 
 function LoanItem(props: Props) {
@@ -27,11 +28,11 @@ function LoanItem(props: Props) {
     };
 
 
-    function borrow() {
-        window.toastProvider.addMessage("Implementing...", {
-            secondaryMessage: "This functionality will be available soon",
-            colorTheme: "dark"
-        });
+    async function borrow() {
+        const {loanID} = props.loan;
+        const ok = await props.loanContract.acceptLoanRequest(loanID);
+        console.log("-------");
+        console.log(ok);
         closeModal();
     }
 
@@ -66,8 +67,9 @@ return (
 
                 <Box p={4} mb={3}>
                     <Heading.h3>{translations.t("confirmLiquidation")}</Heading.h3>
-                    <Text>Sure to lend: {loanAmount}?</Text>
-                </Box>
+                    <Text>Sure to lend: {Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH ?</Text>
+                </Box> 
+         
 
                 <Flex
                 px={4}
@@ -77,8 +79,8 @@ return (
                 justifyContent={"flex-end"}
                 >
                 <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
-                <Button ml={3} onClick={()=> borrow()}>{translations.t("confirm")}</Button>
-                </Flex>
+                <Button ml={3} onClick={async ()=> await borrow()}>{translations.t("confirm")}</Button>
+                </Flex> 
             </Card>
         </Modal>
                     

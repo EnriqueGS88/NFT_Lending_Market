@@ -4,7 +4,7 @@
     "loans": "Loan",
     "depositCollateral": "Deposit your collateral",
     "noNFT": "You have no NFT to deposit",
-    "deposit": "Deposit",
+    "deposit": "Deposit ETH",
     "connectMetamask": "Connect to your MetaMask Wallet",
     "borrowETH": "Borrow ETH",
     "confirmLoan": "Confirm Loan",

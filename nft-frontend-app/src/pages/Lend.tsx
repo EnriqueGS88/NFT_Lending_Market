@@ -76,6 +76,7 @@ function Lend(props: AccountProps) {
                 <LoanItem
                   key={loanAvailable.loanID.toString()}
                   loan={loanAvailable}
+                  loanContract={props.loanContract}
                 />);
         });
         setLoansELement(loansItems);

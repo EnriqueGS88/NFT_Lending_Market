@@ -122,7 +122,7 @@ function AddCollateral(props: AddCollateralProps) {
         <div>
             <h3>{translations.t("depositCollateral")}</h3>
             {props.account !== '' &&
-                <div>
+                <div style={styles.list}>
                 {props.isLoading
                     ?  <Loader type="Oval" color="#000" height={70} width={70} />
                     : userNFTs.length === 0
@@ -140,4 +140,12 @@ function AddCollateral(props: AddCollateralProps) {
         </div>
     )
   }
+
+  const styles = {
+    list: {
+        listStyleType:"none",
+        width: '60%',
+        marginLeft: '20%',
+    },
+}
 export default AddCollateral;
