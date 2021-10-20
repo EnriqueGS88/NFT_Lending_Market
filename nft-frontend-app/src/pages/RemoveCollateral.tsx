@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
-import { BorrowProps } from './Borrow';
 import Loader from "react-loader-spinner";
-
-
-import { ethers } from 'ethers';
-import { getABI } from "../blockchain/getAbi";
 import { Protocol } from '../dtos/protocol';
 import Loan from './Loan';
 
@@ -25,7 +20,15 @@ function RemoveCollateral(props: LoansProps) {
 
     const translations = useTranslation("translations");
     const [loansPending, setLoansPending] = useState<any[any]>([])
-    const [loansCanceledPendingConfirmation, setLoansCanceledPendingConfirmation] = useState<any[any]>([]);
+    const [loansCanceledPendingConfirmation, setLoansCanceledPendingConfirmation] = useState<any[any]>(() => {
+        const pending = localStorage.getItem("loansPendingCancelation");
+        if (pending) {
+            return JSON.parse(pending) 
+        } else {
+            return [];
+        }
+    });
+
 
     useEffect(() => {
         const loansToBeCancelled:any = [];
@@ -34,6 +37,8 @@ function RemoveCollateral(props: LoansProps) {
                 loansToBeCancelled.push(loansCanceledPendingConfirmation[i]);
             }
         }
+
+        localStorage.setItem("loansPendingCancelation", JSON.stringify(loansToBeCancelled));
         setLoansCanceledPendingConfirmation(loansToBeCancelled);
 
         const loansFiltered = props.loans.length > 0 ? props.loans.filter(loan => {

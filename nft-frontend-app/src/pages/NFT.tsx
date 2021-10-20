@@ -12,6 +12,7 @@ export interface NFTProps {
     nft: any,
     protocolVariables: Protocol,
     depositNFT: Function,
+    getNFTprice: Function,
 }
 
 declare const window: any;
@@ -31,10 +32,14 @@ function NFT(props: NFTProps) {
                     <h4>Token ID: {props.nft.token_id} </h4>
                     {/* <img src={NFTmetadata.image} /> */}
                 </div>
-                <form onSubmit={async (event) => {
-                    event.preventDefault();
-                    await props.depositNFT(loanAmount , props.nft.token_id)}
-                } >
+                <div>
+                    <Button onClick={async () => {
+                        await props.getNFTprice(props.nft.metadata);
+                    }}>{translations.t("calcularNFTprice")}</Button>
+                    <form onSubmit={async (event) => {
+                        event.preventDefault();
+                        await props.depositNFT(loanAmount , props.nft.token_id)}
+                    } >
                     <label>{"Set how much ETH would you like"} </label> 
                     <input
                         type="number"
@@ -48,7 +53,6 @@ function NFT(props: NFTProps) {
                     />
                     <Button type="submit">{translations.t("deposit")}</Button>
                 </form>
-                <div>
                 </div>
             </div>
         </>

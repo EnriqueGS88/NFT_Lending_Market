@@ -2,11 +2,20 @@ import React, {useEffect, useState }  from 'react';
 import { Button, ToastMessage, Box, Flex, Field, Input, Text, Modal, Card, Heading } from 'rimble-ui';
 import colors from '../config/colors';
 import { useTranslation } from "react-i18next";
-import { BorrowProps } from './Borrow';
+import { Protocol } from '../dtos/protocol';
+
+
+export interface LoanProps {
+    account: string,
+    loans: Array<any>,
+    protocolVariables: Protocol,
+    loanContract: any,
+    provider: any,
+}
 
 
 declare const window: any;
-function Loans(props: BorrowProps) {
+function Loans(props: LoanProps) {
     const [collateralBalance, setCollateralBalance] = useState(0);
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);

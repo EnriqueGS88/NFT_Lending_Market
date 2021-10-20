@@ -12,6 +12,8 @@ export interface AccountProps {
   ethBalance: number,
   protocolVariables: Protocol,
   loanContract: any,
+  realStateValueContract: any,
+  oracleChainLinkContract: any,
   provider: any,
   getAccount?: any,
 }

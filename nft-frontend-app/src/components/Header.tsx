@@ -55,8 +55,10 @@ function Header(props: Props) {
           <div style={styles.headerItem}>
             {
               !props.account ?
-                <MetaMaskButton size="medium" className="MetamaskButton"
-                onClick={() => connectWithMetamask()}>{translations.t("connectWithMetamask")}</MetaMaskButton>
+                window.ethereum ?
+                  <MetaMaskButton size="medium" className="MetamaskButton"
+                    onClick={() => connectWithMetamask()}>{translations.t("connectWithMetamask")}</MetaMaskButton>
+                  : <div>{translations.t("installMetamask")}</div>
                 : null
             }
               </div>
