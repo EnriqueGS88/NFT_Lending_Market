@@ -7,10 +7,9 @@ import { AccountProps } from '../components/Tabs';
 
 import { useTranslation } from "react-i18next";
 
-declare const window: any;
-
 function Liquidate(props: AccountProps) {
     const [pntkMyBalance, setMyPntkBalance] = useState(0);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [ethMyBalance, setMyEthBalance] = useState(0);
     const [houses, setHouses] = useState<JSX.Element[]>();
 

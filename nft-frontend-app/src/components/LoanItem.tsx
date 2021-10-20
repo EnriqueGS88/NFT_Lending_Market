@@ -1,19 +1,19 @@
 /* eslint-disable react/jsx-pascal-case */
 import { useState }  from 'react';
-
+import { ethers } from 'ethers';
 import { Card, Button, Modal, ToastMessage, Flex, Box, Heading, Text} from 'rimble-ui';
 import colors from '../config/colors';
-import { House } from '../dtos/houses';
 import { useTranslation } from "react-i18next";
+import { Loans } from '../dtos/loans';
 
 
 declare const window: any;
 
 interface Props {
-    house: House;
+    loan: Loans;
 } 
 
-function HouseItem(props: Props) {
+function LoanItem(props: Props) {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const translations = useTranslation("translations");
@@ -27,30 +27,27 @@ function HouseItem(props: Props) {
     };
 
 
-    function liquidate() {
+    function borrow() {
         window.toastProvider.addMessage("Implementing...", {
             secondaryMessage: "This functionality will be available soon",
             colorTheme: "dark"
-        })
+        });
+        closeModal();
     }
 
-const {title, image, description, location, price, contact, url} = props.house;
+const {lender, borrower, smartContractAddressOfNFT, tokenIdNFT, loanAmount, interestAmount, endLoanTimeStamp, maximumPeriod} = props.loan;
 return (
     <li style={styles.listItem}>
         <Card bg={colors.softGrey}>
-            <h4>{title}</h4> 
-            <table><tr>
-                    <td>
-                        <a href={url}>
-                        <img src={image} alt="imageHouse" width="500" height="400" /></a>
-                    </td>
-                    <td>
-                        <h6>{translations.t("location")}: {location}</h6> 
-                        <h6>{translations.t("price")}: {price} . {translations.t("contact")}: {contact} </h6> 
-                        <div style={styles.description}><p>{description}</p></div>
-                        <Button size={'medium'} onClick={()=> openModal()}>{translations.t("liquidate")}</Button>
-                    </td>
-            </tr></table>
+            <h4>Loan Amount: {Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)}</h4> 
+            <div>
+                 <h6>Borrower: {borrower}</h6> 
+                 <h6>SC Address: {smartContractAddressOfNFT} . NFT ID: {tokenIdNFT} </h6> 
+                <div style={styles.description}><p>Interest: {Number(ethers.BigNumber.from(interestAmount).toString()) / Math.pow(10, 18)}</p></div>
+                        <div style={styles.description}><p>End Loan Time Stamp{Number(ethers.BigNumber.from(endLoanTimeStamp).toString())}</p></div>
+                        <div style={styles.description}><p>Max Period: {Number(ethers.BigNumber.from(maximumPeriod).toString())}</p></div>
+                        <Button size={'medium'} onClick={()=> openModal()}>Lend</Button>
+            </div>
         </Card>
         <Modal isOpen={isModalOpen}>
             <Card width={"420px"} p={0}>
@@ -68,7 +65,7 @@ return (
 
                 <Box p={4} mb={3}>
                     <Heading.h3>{translations.t("confirmLiquidation")}</Heading.h3>
-                    <Text>{translations.t("sureToLiquidate")}: {title}?</Text>
+                    <Text>Sure to lend: {loanAmount}?</Text>
                 </Box>
 
                 <Flex
@@ -79,7 +76,7 @@ return (
                 justifyContent={"flex-end"}
                 >
                 <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
-                <Button ml={3} onClick={()=> liquidate()}>{translations.t("confirm")}</Button>
+                <Button ml={3} onClick={()=> borrow()}>{translations.t("confirm")}</Button>
                 </Flex>
             </Card>
         </Modal>
@@ -99,4 +96,4 @@ const styles = {
     marginLeft: '10%'
   }
 }
-export default HouseItem;
+export default LoanItem;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 import Loader from "react-loader-spinner";
@@ -21,7 +22,6 @@ export interface AddCollateralProps {
     isLoading: boolean,
 }
 
-declare const window: any;  
 function AddCollateral(props: AddCollateralProps) {
 
     const [isLoadingPrice, setIsLoadingPrice] = useState(false);

@@ -1,4 +1,3 @@
-import React, {useState, useEffect} from 'react';
 import { Button } from 'rimble-ui';
 
 import { useTranslation } from "react-i18next";
@@ -12,7 +11,6 @@ export interface LoanProps {
     cancelDeposit: Function,
 }
 
-declare const window: any;
 function Loan(props: LoanProps) {
 
     const translations = useTranslation("translations");

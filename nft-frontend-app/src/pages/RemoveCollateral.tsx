@@ -13,9 +13,7 @@ export interface LoansProps {
     provider: any,
     loanContract: any
 }
-
-
-declare const window: any;  
+ 
 function RemoveCollateral(props: LoansProps) {
 
     const translations = useTranslation("translations");
@@ -46,6 +44,7 @@ function RemoveCollateral(props: LoansProps) {
         }) : [];
         setLoansPending(loansFiltered);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.account, props.loans])
     
 

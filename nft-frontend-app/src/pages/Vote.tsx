@@ -1,10 +1,8 @@
 import React, {useEffect, useState }  from 'react';
-import { ethers } from 'ethers';
 import {Protocol} from '../dtos/protocol';
 import { AccountProps } from '../components/Tabs';
 import { useTranslation } from "react-i18next";
 
-declare const window: any;
 
 export interface VoteProps {
     account: string,
@@ -60,13 +58,4 @@ function Vote(props: AccountProps) {
     </div>
     )
   }
-
-const styles = {
-    header: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-    },
-}
 export default Vote;

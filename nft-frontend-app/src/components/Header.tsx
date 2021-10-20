@@ -2,7 +2,6 @@ import { MetaMaskButton } from 'rimble-ui';
 import colors from '../config/colors';
 import LanguageSelectionConnected from '../LanguageSelection/LanguageSelection.connected';
 import { useTranslation } from "react-i18next";
-import { useEffect } from 'react';
 
 declare const window: any;
 interface Props {
@@ -43,7 +42,7 @@ function Header(props: Props) {
           <div style={styles.headerItemCenter}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <a style={styles.link} href="/" target='_blank'>
-                <h1 style={styles.title}>RealStateChain</h1>
+                <h1 style={styles.title}>Real Estate NFT Collateral for Loans</h1>
               </a>
             </div>
             <div>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { ToastMessage } from 'rimble-ui';
@@ -15,7 +16,6 @@ const createNFT = "0x0bEE0f0dBa0890E9A510AaD08D023A691fA69eA3";
 declare const window: any;
 
 function App() {
-  // store greeting in local state
   const [isConnectionSuccess, setConnectionSuccess] = useState(false);
   const [isConnectionFailed, setConnectionFailed] = useState(false);
   const [myAddress, setMyAddress] = useState('');
@@ -23,9 +23,13 @@ function App() {
   const [loanContract, setLoanContract] = useState<any>();
   const [realStateValueContract, setRealStateValueContract] = useState<any>();
   const [oracleChainLinkContract, setOracleChainLinkContract] = useState<any>();
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [mintNFTContract, setMintNFTContract] = useState<any>();
 
-  const [provider, setProvider] = useState(window.ethereum ? new ethers.providers.Web3Provider(window.ethereum, "rinkeby") : null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [provider, setProvider] = useState(new ethers.providers.Web3Provider(window.ethereum, "rinkeby"));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [protocolVariables, setProtocolVariables] = useState<Protocol>(
     {
       interestRate: 1,
