@@ -20,7 +20,7 @@ export interface BorrowProps {
 declare const window: any;
 function Lend(props: AccountProps) {
 
-    const [collateralBalance, setCollateralBalance] = useState(0);
+    const [collateralBalance, setCollateralBalance] = useState(props.ethBalance);
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
     const [loans, setLoans] = useState<any[any]>([]);
@@ -31,7 +31,6 @@ function Lend(props: AccountProps) {
     const translations = useTranslation("translations");
     
     useEffect(() => {
-        setCollateralBalance(0);
         try {
             setIsLoading(true);
             getLoans();

@@ -82,8 +82,8 @@ function Borrow(props: AccountProps) {
     }, [props.account, queryNFTs])
 
     if (props.loanContract) {
-        props.loanContract.on("LoansUpdated", () => {
-            console.log("is this doing something?")
+        props.loanContract.on("LoansUpdated", (event: any) => {
+            console.log("is this doing something?", event)
             setQueryLoans(true);
             setQueryNFTs(true);
         })

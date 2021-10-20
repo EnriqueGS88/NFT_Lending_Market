@@ -20,6 +20,7 @@
     "i18next-localstorage-backend": "^3.1.2",
     "moralis": "^0.0.92",
     "react": "^17.0.2",
+    "react-confirm-alert": "^2.7.0",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.12.0",
     "react-loader-spinner": "^4.0.0",

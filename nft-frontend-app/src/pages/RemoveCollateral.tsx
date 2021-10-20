@@ -31,7 +31,7 @@ function RemoveCollateral(props: LoansProps) {
     useEffect(() => {
         const loansToBeCancelled:any = [];
         for (let i = 0; i < loansCanceledPendingConfirmation.length; ++i) {
-            if (props.loans.find(loan => loan.loanID.toString() === loansCanceledPendingConfirmation[i])) {
+            if (props.loans.find(loan => loan.loanID.toString() === loansCanceledPendingConfirmation[i] && loan.status === 0)) {
                 loansToBeCancelled.push(loansCanceledPendingConfirmation[i]);
             }
         }
@@ -54,7 +54,7 @@ function RemoveCollateral(props: LoansProps) {
         try {
             await props.loanContract.cancelLoanRequest(loanID);
             setLoansCanceledPendingConfirmation(loansCanceledPendingConfirmation.push(loanID));
-            const newListLoans = loansPending.filter((loan: { loanID: { toString: () => number; }; }) => loan.loanID.toString() !== loanID);
+            const newListLoans = loansPending.filter((loan:any) => loan.loanID.toString() !== loanID  && loan.status === 0);
             setLoansPending(newListLoans);
         } catch (error) {
             console.log("error", error);

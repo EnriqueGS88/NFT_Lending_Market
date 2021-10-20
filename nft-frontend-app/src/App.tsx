@@ -9,6 +9,8 @@ import Footer from './components/Footer';
 import { getABI } from './blockchain/getAbi';
 import { Protocol } from './dtos/protocol';
 
+import abiRealState from "./blockchain/RealStateValue.json";
+
 
 // Update with the contract address logged out to the CLI when it was deployed 
 const loadNFTAddress = "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98";
@@ -28,7 +30,7 @@ function App() {
   const [mintNFTContract, setMintNFTContract] = useState<any>();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [provider, setProvider] = useState(new ethers.providers.Web3Provider(window.ethereum, "rinkeby"));
+  const [provider, setProvider] = useState(window.ethereum ? new ethers.providers.Web3Provider(window.ethereum, "rinkeby") : null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [protocolVariables, setProtocolVariables] = useState<Protocol>(
     {
@@ -104,13 +106,10 @@ function App() {
   const getRealStateValueContract = async () => {
     try {
       if (provider) {
-        const ApiTokenEtherscan = "73T2GI2P7GWCFGFGIAJ1VSJCUXG2TDDXES";
-        const smartContractChainlinkAddress = "0xFe6BB3f0376b610888EAEFFfD94c00E28246e315";
-        const contractAbi = await getABI(ApiTokenEtherscan, smartContractChainlinkAddress);
-        const ABI = JSON.parse(contractAbi);
+        const smartContractChainlinkAddress = "0x9dceEC52eC56034e0a12758C0b4caFa7d33B5907";
         const signer = provider.getSigner();
 
-        setRealStateValueContract(new ethers.Contract(smartContractChainlinkAddress, ABI, signer));
+        setRealStateValueContract(new ethers.Contract(smartContractChainlinkAddress, abiRealState, signer));
       }
     } catch (error) {
       console.log("error", error);
