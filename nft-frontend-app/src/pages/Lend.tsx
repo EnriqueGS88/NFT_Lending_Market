@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
+import { ethers } from 'ethers';
 import { AccountProps } from '../components/Tabs';
 import colors from '../config/colors';
 import { useTranslation } from "react-i18next";
-import { Button, ToastMessage, Box, Flex, Field, Input, Text, Modal, Card, Heading } from 'rimble-ui';
 import { Loans } from '../dtos/loans';
 import Moralis from "moralis";
 
@@ -20,7 +20,7 @@ export interface BorrowProps {
 declare const window: any;
 function Lend(props: AccountProps) {
 
-    const [collateralBalance, setCollateralBalance] = useState(0);
+    const [balance, setBalance] = useState(0);
     const [ethToBorrow, setEthToBorrow] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
     const [loans, setLoans] = useState<any[any]>([]);
@@ -31,13 +31,19 @@ function Lend(props: AccountProps) {
     const translations = useTranslation("translations");
     
     useEffect(() => {
-        setCollateralBalance(0);
+        async function getBalance() {
+            const balanceInfo = await props.provider.getBalance(props.account);
+            const balanceEth = Number(ethers.BigNumber.from(balanceInfo).toString()) / Math.pow(10, 18);
+            setBalance(balanceEth);
+        }
+        
         try {
             setIsLoading(true);
             getLoans();
         } catch {
             setIsLoading(false);
         }
+        getBalance();
     },[]);
 
     
@@ -86,20 +92,15 @@ function Lend(props: AccountProps) {
     }
 
 
-    function calculateAvailableToBorrow() {
-        return collateralBalance;
-    }
-
-
     return (
         <div>
             <h3>Lend ETH</h3>
             {props.account !== '' &&
                 <div>
                     <div>
-                    <p>List of Loans</p> 
+                    <p>{translations.t("collateralBalance", { collateralBalance: balance }) }</p>
+                    <h4>List of Loans</h4> 
                     <ul style={styles.list}>{loansElement}</ul>
-                    <p>{translations.t("collateralBalance", { collateralBalance: collateralBalance }) }</p>
                     </div>
                     
 
@@ -120,6 +121,8 @@ const styles = {
     },
     list: {
         listStyleType:"none",
+        width: '33%',
+        marginLeft: '33%',
     },
 }
 export default Lend;

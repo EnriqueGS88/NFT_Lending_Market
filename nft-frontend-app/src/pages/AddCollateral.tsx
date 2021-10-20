@@ -59,8 +59,11 @@ function AddCollateral(props: AddCollateralProps) {
     }, [props.loans])
 
     useEffect(() => {
-        console.log("HOLa", props.oracleChainLinkContract);
-        getValuePrice();
+        async function getPricesChainLink(){
+            console.log("HOLa", props.oracleChainLinkContract);
+            await getValuePrice();
+        }
+        getPricesChainLink();
     }, [props.oracleChainLinkContract])
 
     
@@ -108,8 +111,11 @@ function AddCollateral(props: AddCollateralProps) {
     }
    
     const getValuePrice = async () => {
-        const res = (await props.oracleChainLinkContract.latestAnswer()).toString() / Math.pow(10, 8);
-        return res;
+        const res = await props.oracleChainLinkContract.latestAnswer();
+        if(res){
+            return res.toString() / Math.pow(10, 8);
+        }
+        
     }
 
     return (
