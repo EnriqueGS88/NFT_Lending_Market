@@ -33,6 +33,7 @@
     "whenCanLiquidate": "You can liquidate a collateral with ETH if you have enought ETH and PNTK",
     "pntkBalance": "Your PNTK balance: {{pntkBalance}} PNTK",
     "collateralBalance": "Your balance: {{collateralBalance}} ETH",
+    "balance": "Your balance: {{collateralBalance}} ETH",
     "sureToBorrow": "Are you sure you want to borrow {{quantity}} ETH?",
     "depositEthReceivePntk": "You can deposit ETH and you will receive the same amount in PNTK",
     "sureToDeposit": "Are you sure you want to deposit {{quantity}} ETH? in the pool",

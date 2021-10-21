@@ -33,6 +33,7 @@
     "whenCanLiquidate": "Puede liquidar una garantía con ETH si tiene suficiente ETH y PNTK",
     "pntkBalance": "Su balance de PNTK: {{pntkBalance}} PNTK",
     "collateralBalance": "Su balance: {{collateralBalance}} ETH",
+    "balance": "Su balance: {{collateralBalance}} ETH",
     "sureToBorrow": "¿Está seguro de que desea pedir prestado {{quantity}} ETH?",
     "depositEthReceivePntk": "Puedes depositar ETH y recibirás la misma cantidad en PNTK",
     "sureToDeposit": "¿Está seguro de que desea depositar {{quantity}} ETH?",

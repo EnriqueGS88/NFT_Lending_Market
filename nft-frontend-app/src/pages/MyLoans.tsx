@@ -1,25 +1,30 @@
-import {useState, useEffect} from 'react';
-import { ethers } from 'ethers';
-import { AccountProps } from '../components/Tabs';
-import colors from '../config/colors';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
-import { Loans } from '../dtos/loans';
-import Moralis from "moralis";
+import Loader from "react-loader-spinner";
 
+import { ethers } from 'ethers';
+
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
+import NFT from './NFT';
 import { Protocol } from '../dtos/protocol';
-import LoanItem from '../components/LoanItem';
+import { Loans } from '../dtos/loans';
+import LoanItemCancel from '../components/LoanItemCancel';
 
-export interface BorrowProps {
+export interface MyLoanProps {
     account: string,
     loans: Array<any>,
     protocolVariables: Protocol,
     loanContract: any,
+    oracleChainLinkContract: any,
     provider: any,
+    isLoading: boolean,
     ethBalance: number,
 }
 
-declare const window: any;
-function Lend(props: AccountProps) {
+function MyLoans(props: MyLoanProps) {
 
     const [collateralBalance, setCollateralBalance] = useState(props.ethBalance);
     const [ethToBorrow, setEthToBorrow] = useState(0);
@@ -71,16 +76,18 @@ function Lend(props: AccountProps) {
         }   
     }
 
-    
 
+
+
+    
     const getLoans = async () => {        
         const totalLoansRequests = (await props.loanContract.totalLoanRequests()).toString();
 
         const loansSC: Loans[] = [];
         for (let i = 0; i < totalLoansRequests; ++i) {
             const loansRequests = await props.loanContract.allLoanRequests(i);
-            console.log("loansREquested", loansRequests)
-            if (loansRequests.status === 0) {
+            console.log(loansRequests);
+            // if (loansRequests.status === 0) {
                 const loan: Loans = {
                 loanID: loansRequests["loanID"],
                 nftPrice: Number(localStorage.getItem(`value${loansRequests["tokenIdNFT"]}`)!),
@@ -94,15 +101,15 @@ function Lend(props: AccountProps) {
                 endLoanTimeStamp: loansRequests["endLoanTimeStamp"],
             }
             loansSC.push(loan);
-            }
+            // }
             
         }
         setIsLoading(false);
         const loansItems = [] as JSX.Element[];
-        const loansAvailable = deleteLoansWithLenderAndMine(loansSC);
+        const loansAvailable = deleteLoansWithoutLenderAndNotMine(loansSC);
         loansAvailable.forEach((loanAvailable) => {
             loansItems.push(
-                <LoanItem
+                <LoanItemCancel
                     key={loanAvailable.loanID.toString()}
                     loan={loanAvailable}
                     loanContract={props.loanContract}
@@ -114,7 +121,8 @@ function Lend(props: AccountProps) {
         setLoansELement(loansItems);
         setLoans(loansAvailable);
     }
-    function deleteLoansWithLenderAndMine(loans:  Loans[]){
+
+    function deleteLoansWithoutLenderAndNotMine(loans:  Loans[]){
         const loansAvailable: Loans[] = [];
         for (let i = 0; i < loans.length; ++i) {
             if(loans[i].lender === "0x0000000000000000000000000000000000000000" && loans[i].borrower !== props.account){
@@ -124,15 +132,9 @@ function Lend(props: AccountProps) {
         return loansAvailable;
     }
 
-    if (props.loanContract) {
-        props.loanContract.on("LoansUpdated", (event: any) => {
-            setQueryLoans(true);
-        })
-    }
-
     return (
         <div>
-            <h3>Lend ETH</h3>
+            <h3>My Loans</h3>
             {props.account !== '' &&
                 <div>
                     <div>
@@ -152,15 +154,12 @@ function Lend(props: AccountProps) {
     )
   }
 
-const styles = {
-    box: {
-        textAlign: 'center',
-        backgroundColor: colors.bluePurple
-    },
+  const styles = {
     list: {
         listStyleType:"none",
-        width: '33%',
-        marginLeft: '33%',
+        width: '60%',
+        marginLeft: '20%',
     },
 }
-export default Lend;
+export default MyLoans;
+

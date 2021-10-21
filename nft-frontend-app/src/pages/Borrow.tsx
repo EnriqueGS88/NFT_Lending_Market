@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import Moralis from "moralis";
 import { Protocol } from '../dtos/protocol';
 import RemoveCollateral from './RemoveCollateral';
+import MyLoans from './MyLoans';
 
 export interface BorrowProps {
     account: string,
@@ -18,6 +19,7 @@ export interface BorrowProps {
     realStateValueContract: any,
     oracleChainLinkContract: any,
     provider: any,
+    ethBalance: number,
 }
 
 function Borrow(props: AccountProps) {
@@ -99,12 +101,16 @@ function Borrow(props: AccountProps) {
                 <TabList className={styles.tabs}>
                     <Tab>{translations.t("addCollateral")}</Tab>
                     <Tab>{translations.t("removeCollateral")}</Tab>
+                    <Tab>My Loans</Tab>
                 </TabList>
                 <TabPanel>
                     <AddCollateral provider={props.provider} loanContract={props.loanContract} account={props.account} loans={loans} protocolVariables={props.protocolVariables} nfts={nfts} isLoading={isLoading} realStateValueContract={props.realStateValueContract} oracleChainLinkContract={props.oracleChainLinkContract}/>
                 </TabPanel>
                 <TabPanel>
                     <RemoveCollateral provider={props.provider} loanContract={props.loanContract} account={props.account} loans={loans} protocolVariables={props.protocolVariables} setQueryLoans={setQueryLoans} isLoading={isLoading}/>
+                </TabPanel>
+                <TabPanel>
+                    <MyLoans provider={props.provider} loanContract={props.loanContract} account={props.account} loans={loans} protocolVariables={props.protocolVariables} isLoading={isLoading} ethBalance={props.ethBalance} oracleChainLinkContract={props.oracleChainLinkContract}/>
                 </TabPanel>
             </Tabs>
         </div>
