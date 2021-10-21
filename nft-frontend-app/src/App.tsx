@@ -70,7 +70,6 @@ function App() {
   const getMintNFTContract = async () => {
     try {
       if (provider) {
-        // const SmartContractAddress = "0x3143623f5f13baf4a984ba221291afb0fd81d854";
         const SmartContractAddress = "0x8950851c462047285fe5502863C73799c5317B51";
         const ApiTokenEtherscan = "73T2GI2P7GWCFGFGIAJ1VSJCUXG2TDDXES";
         console.log("to get");

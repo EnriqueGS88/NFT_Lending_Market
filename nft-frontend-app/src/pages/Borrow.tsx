@@ -52,7 +52,9 @@ function Borrow(props: AccountProps) {
             const NFTs = await Moralis.Web3API.account.getNFTs({ chain: "rinkeby", address: props.account });
             console.log("NFTS", NFTs)
             
-            setNfts(NFTs ? NFTs.result?.filter(nft => nft.token_address === "0x8950851c462047285fe5502863C73799c5317B51") : []);
+            setNfts(NFTs ? NFTs.result?.filter(nft => {
+                return nft.token_address.toUpperCase() ===  "0x8950851c462047285fe5502863C73799c5317B51".toUpperCase()
+            }) : []);
             setIsLoading(false);
         } catch (error) {
             console.log("error", error);

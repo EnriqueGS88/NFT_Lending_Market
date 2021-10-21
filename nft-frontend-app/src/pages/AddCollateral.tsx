@@ -43,11 +43,9 @@ function AddCollateral(props: AddCollateralProps) {
     const [userNFTs, setUserNFTs] = useState<any[any]>([]);
 
     useEffect(() => {
-        console.log("nfts", props.nfts);
-        console.log("loans", props.loans);
         console.log("depositsPendingConfirmation", depositsPendingConfirmation);
         const nfts = props.nfts.filter(nft => {
-            return !props.loans.find(loan => loan.tokenIdNFT === Number(nft.token_id) && loan.status === 0) && !depositsPendingConfirmation.includes(nft.token_id)
+            return !props.loans.find(loan => loan.tokenIdNFT === Number(nft.token_id) && loan.status === 0) && (!depositsPendingConfirmation || depositsPendingConfirmation.length === 0 || !depositsPendingConfirmation.includes(nft.token_id))
         })
         setUserNFTs(nfts);  
     }, [props.nfts, depositsPendingConfirmation])

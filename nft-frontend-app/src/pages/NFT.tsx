@@ -66,7 +66,7 @@ function NFT(props: NFTProps) {
 
     if (props.nftMintContract) {
         props.nftMintContract.on("Approval", (owner: any, approved: any, token: any) => {
-            if (token.toString() === props.nft.token_id && approved === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98") {
+            if (token.toString() === props.nft.token_id && approved.toUpperCase() === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98".toUpperCase()) {
                 setTransferApproved(true);
                 setIsLoadingApproval(false);
             }
@@ -146,7 +146,7 @@ function NFT(props: NFTProps) {
                             }
                              <br/>
                         <div style={styles.groupButtons}>
-                        {contractTransferApproved === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98"
+                        {contractTransferApproved.toUpperCase() === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98".toUpperCase()
                             ?
                             <Button size={'medium'} onClick={() => {
                                 props.depositNFT(loanAmountETH , props.nft.token_id)}
