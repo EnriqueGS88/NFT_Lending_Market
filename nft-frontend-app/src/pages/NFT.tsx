@@ -30,7 +30,7 @@ function NFT(props: NFTProps) {
     const [loanAmountUSD, setLoanAmountUSD] = useState(0);
     const [loanAmountETH, setLoanAmountETH] = useState<any>(0);
 
-    const [nftValueUSD, setNftValueUSD] = useState<any>(localStorage.getItem(`value${props.nft.token_id}`));
+    const [nftValueUSD, setNftValueUSD] = useState<any>(0);
     const [isPriceUSD, setIsPriceUSD] = useState(true);
     const [isLoadingPrice, setIsLoadingPrice] = useState(false);
     const [contractTransferApproved, setContractTransferApproved] = useState("");

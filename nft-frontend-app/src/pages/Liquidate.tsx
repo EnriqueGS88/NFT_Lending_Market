@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Protocol } from '../dtos/protocol';
 import { Loans } from '../dtos/loans';
 import LoanItemCancel from '../components/LoanItemCancel';
+import LoanItemLiquidate from '../components/LoanItemLiquidate';
 
 export interface LiquidateProps {
     account: string,
@@ -90,7 +91,7 @@ function Liquidate(props: LiquidateProps) {
         const loansAvailable = deleteLoansIAmNotLender(loansSC);
         loansAvailable.forEach((loanAvailable) => {
             loansItems.push(
-                <LoanItemCancel
+                <LoanItemLiquidate
                     key={loanAvailable.loanID.toString()}
                     loan={loanAvailable}
                     loanContract={props.loanContract}
