@@ -83,10 +83,10 @@ function MyLoans(props: MyLoanProps) {
     const getLoans = async () => {        
         const totalLoansRequests = (await props.loanContract.totalLoanRequests()).toString();
 
+
         const loansSC: Loans[] = [];
         for (let i = 0; i < totalLoansRequests; ++i) {
             const loansRequests = await props.loanContract.allLoanRequests(i);
-            console.log(loansRequests);
             if (loansRequests.status === 1) {
                 const loan: Loans = {
                 loanID: loansRequests["loanID"],
@@ -102,6 +102,8 @@ function MyLoans(props: MyLoanProps) {
                 }
                 loansSC.push(loan);
             }
+            console.log("----");
+            console.log(loansSC);
             
         }
         setIsLoading(false);
