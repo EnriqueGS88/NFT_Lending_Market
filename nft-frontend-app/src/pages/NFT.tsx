@@ -52,7 +52,7 @@ function NFT(props: NFTProps) {
         console.log("getp");
         const price = await props.getNFTprice(props.nft.token_id, props.nft.metadata);
         console.log(price);
-        setIsLoadingPrice(false);
+        setIsLoadingPrice(true);
     }
     
     return (
