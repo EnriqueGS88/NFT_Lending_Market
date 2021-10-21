@@ -79,7 +79,6 @@ function Lend(props: AccountProps) {
         const loansSC: Loans[] = [];
         for (let i = 0; i < totalLoansRequests; ++i) {
             const loansRequests = await props.loanContract.allLoanRequests(i);
-            console.log("loansREquested", loansRequests)
             if (loansRequests.status === 0) {
                 const loan: Loans = {
                 loanID: loansRequests["loanID"],

@@ -87,7 +87,7 @@ function MyLoans(props: MyLoanProps) {
         for (let i = 0; i < totalLoansRequests; ++i) {
             const loansRequests = await props.loanContract.allLoanRequests(i);
             console.log(loansRequests);
-            // if (loansRequests.status === 0) {
+            if (loansRequests.status === 1) {
                 const loan: Loans = {
                 loanID: loansRequests["loanID"],
                 nftPrice: Number(localStorage.getItem(`value${loansRequests["tokenIdNFT"]}`)!),
@@ -99,9 +99,9 @@ function MyLoans(props: MyLoanProps) {
                 interestAmount: loansRequests["interestAmount"],
                 maximumPeriod: loansRequests["maximumPeriod"],
                 endLoanTimeStamp: loansRequests["endLoanTimeStamp"],
+                }
+                loansSC.push(loan);
             }
-            loansSC.push(loan);
-            // }
             
         }
         setIsLoading(false);
