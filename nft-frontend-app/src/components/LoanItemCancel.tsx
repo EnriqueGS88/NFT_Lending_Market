@@ -65,7 +65,7 @@ return (
                
                 <p><b> NFT Smart Contract Address:</b>  {smartContractAddressOfNFT}</p> 
                 <p><b>NFT ID:</b> {tokenIdNFT}</p>
-                <Button size={'medium'} onClick={()=> openModal()}>Cancel Loan</Button>
+                <Button size={'medium'} onClick={()=> openModal()}>End the Loan</Button>
             </div>
         </Card>
         <Modal isOpen={isModalOpen}>
@@ -84,7 +84,7 @@ return (
 
                 <Box p={4} mb={3}>
                     <Heading.h3>{translations.t("confirmLiquidation")}</Heading.h3>
-                    <Text>Sure to cancel the loan? You will have to pay back {Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18) + Number(ethers.BigNumber.from(interestAmount).toString()) / Math.pow(10, 18)} ETH ?</Text>
+                    <Text>Sure to end the loan? You will have to pay back {Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18) + Number(ethers.BigNumber.from(interestAmount).toString()) / Math.pow(10, 18)} ETH ?</Text>
                 </Box> 
          
 

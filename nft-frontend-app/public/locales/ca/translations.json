@@ -30,7 +30,7 @@
     "depositFirst": "Per a solicitar un préstec, primer ha de dipositar un NFT inmobiliari com a garantía.",
     "afterDeposit": " Aleshores demani prestat fins al 100% del valor de sla seva garantia en ETH.",
     "listHouses": "Llista de casas a liquidar:",
-    "whenCanLiquidate": "Pot liquidar una garantia amb ETH si te suficient ETH i PNTK",
+    "whenCanLiquidate": "Pot liquidar una garantia amb ETH si ha passat suficient temps i tens suficient ETH i PNTK",
     "pntkBalance": " Quantitat de PNTK: {{pntkBalance}} PNTK",
     "collateralBalance": "Quantitat de ETH: {{collateralBalance}} ETH",
     "balance": "Quantitat de ETH: {{collateralBalance}} ETH",

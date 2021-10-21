@@ -125,7 +125,7 @@ function MyLoans(props: MyLoanProps) {
     function deleteLoansWithoutLenderAndNotMine(loans:  Loans[]){
         const loansAvailable: Loans[] = [];
         for (let i = 0; i < loans.length; ++i) {
-            if(loans[i].lender === "0x0000000000000000000000000000000000000000" && loans[i].borrower !== props.account){
+            if(loans[i].lender !== "0x0000000000000000000000000000000000000000" && loans[i].borrower === props.account){
                 loansAvailable.push(loans[i]);
             }
         }

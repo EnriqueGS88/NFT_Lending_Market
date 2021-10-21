@@ -6,44 +6,123 @@ import realStateData from '../data/real-state.json';
 import { AccountProps } from '../components/Tabs';
 
 import { useTranslation } from "react-i18next";
+import { Protocol } from '../dtos/protocol';
+import { Loans } from '../dtos/loans';
+import LoanItemCancel from '../components/LoanItemCancel';
 
-function Liquidate(props: AccountProps) {
-    const [pntkMyBalance, setMyPntkBalance] = useState(0);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [ethMyBalance, setMyEthBalance] = useState(0);
-    const [houses, setHouses] = useState<JSX.Element[]>();
+export interface LiquidateProps {
+    account: string,
+    protocolVariables: Protocol,
+    loanContract: any,
+    provider: any,
+    ethBalance: number,
+}
+function Liquidate(props: LiquidateProps) {
 
-    const translations = useTranslation("translations");
+
+    const [collateralBalance, setCollateralBalance] = useState(props.ethBalance);
+    const [ethToBorrow, setEthToBorrow] = useState(0);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [loans, setLoans] = useState<any[any]>([]);
+    const [loansElement, setLoansELement] = useState<JSX.Element[]>();
+    const [isLoading, setIsLoading] = useState(false);
+    const [ethUsdPrice, setEthUsdPrice] = useState(0);
+    const [nftLoanPendingConfirmation, setNftLoanPendingConfirmation] = useState<any[]>([]);
+    const [queryLoans, setQueryLoans] = useState(true);
+
 
     
+
+    const translations = useTranslation("translations");
+    
     useEffect(() => {
-        const getHouses = async() => {
-            const housesItems = [] as JSX.Element[];
-            const arrayHouses: House[] = realStateData.houses;
-            arrayHouses.forEach((house) => {
-                housesItems.push(
-                    <HouseItem
-                      key={house.title}
-                      house={house}
-                    />);
-            });
-            setHouses(housesItems);
+        if (queryLoans) {
+            setQueryLoans(false);
+            try {
+            setIsLoading(true);
+            getLoans();
+            } catch {
+                setIsLoading(false);
+            }
         }
-        getHouses();
-        setMyPntkBalance(0);
-        setMyEthBalance(0);
-    },[]);
+        
+    },[ethUsdPrice, queryLoans]);
+
+ 
+    useEffect(() => {
+        const loansStillPendingAccept = [];
+        for (let i = 0; i < nftLoanPendingConfirmation.length; ++i) {
+            if (!loans.find((loan: { loanID: any; status: number; }) => loan.loanID === nftLoanPendingConfirmation[i] && loan.status === 0)) {
+                loansStillPendingAccept.push(nftLoanPendingConfirmation[i]);
+            }
+        }
+        setNftLoanPendingConfirmation(loansStillPendingAccept);
+    }, [loans])
+    
+
+    
+    const getLoans = async () => {        
+        const totalLoansRequests = (await props.loanContract.totalLoanRequests()).toString();
+
+        const loansSC: Loans[] = [];
+        for (let i = 0; i < totalLoansRequests; ++i) {
+            const loansRequests = await props.loanContract.allLoanRequests(i);
+            console.log(loansRequests);
+            // if (loansRequests.status === 0) {
+                const loan: Loans = {
+                loanID: loansRequests["loanID"],
+                nftPrice: Number(localStorage.getItem(`value${loansRequests["tokenIdNFT"]}`)!),
+                lender: loansRequests["lender"],
+                borrower: loansRequests["borrower"],
+                smartContractAddressOfNFT: loansRequests["smartContractAddressOfNFT"],
+                tokenIdNFT: loansRequests["tokenIdNFT"],
+                loanAmount: loansRequests["loanAmount"],
+                interestAmount: loansRequests["interestAmount"],
+                maximumPeriod: loansRequests["maximumPeriod"],
+                endLoanTimeStamp: loansRequests["endLoanTimeStamp"],
+            }
+            loansSC.push(loan);
+            // }
+            
+        }
+        setIsLoading(false);
+        const loansItems = [] as JSX.Element[];
+        const loansAvailable = deleteLoansIAmNotLender(loansSC);
+        loansAvailable.forEach((loanAvailable) => {
+            loansItems.push(
+                <LoanItemCancel
+                    key={loanAvailable.loanID.toString()}
+                    loan={loanAvailable}
+                    loanContract={props.loanContract}
+                    ethUsdPrice={ethUsdPrice}
+                    nftLoanPendingConfirmation={nftLoanPendingConfirmation}
+                    setNftLoanPendingConfirmation={setNftLoanPendingConfirmation}
+                />);
+        });
+        setLoansELement(loansItems);
+        setLoans(loansAvailable);
+    }
+
+    function deleteLoansIAmNotLender(loans:  Loans[]){
+        const loansAvailable: Loans[] = [];
+        for (let i = 0; i < loans.length; ++i) {
+            if(loans[i].lender === props.account){
+                loansAvailable.push(loans[i]);
+            }
+        }
+        return loansAvailable;
+    }
 
     return (
         <div>
             <h3>{translations.t("borrow")}</h3>
             {props.account !== '' &&
                 <div>
-                <h6>{translations.t("pntkBalance", { pntkBalance: pntkMyBalance }) }</h6>
-                    <p>{translations.t("whenCanLiquidate")}</p>
+                <h6>{translations.t("collateralBalance", { collateralBalance: props.ethBalance })} </h6>
+
 
                     <p>{translations.t("listHouses")}</p> 
-                    <ul style={styles.list}>{houses}</ul>
+                    <ul style={styles.list}>{loansElement}</ul>
                 </div>
             }
             {props.account === '' &&

@@ -30,7 +30,7 @@
     "depositFirst": "In order to apply for a Loan you first have to deposit a real state NFT as a collateral.",
     "afterDeposit": " Then borrow up to 100% the value of your collateral in ETH.",
     "listHouses": "List of houses to liquidate:",
-    "whenCanLiquidate": "You can liquidate a collateral with ETH if you have enought ETH and PNTK",
+    "whenCanLiquidate": "You can liquidate a collateral with ETH if have passed enough time and you have enought ETH and PNTK",
     "pntkBalance": "Your PNTK balance: {{pntkBalance}} PNTK",
     "collateralBalance": "Your balance: {{collateralBalance}} ETH",
     "balance": "Your balance: {{collateralBalance}} ETH",

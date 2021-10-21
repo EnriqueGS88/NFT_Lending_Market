@@ -140,8 +140,6 @@ function Lend(props: AccountProps) {
                     <h4>List of Loans</h4> 
                     <ul style={styles.list}>{loansElement}</ul>
                     </div>
-                    
-
                 </div>
             }
             {props.account === '' &&
