@@ -11,6 +11,7 @@ declare const window: any;
 
 interface Props {
     loan: Loans;
+    loanContract: any,
 } 
 
 function LoanItem(props: Props) {
@@ -27,26 +28,27 @@ function LoanItem(props: Props) {
     };
 
 
-    function borrow() {
-        window.toastProvider.addMessage("Implementing...", {
-            secondaryMessage: "This functionality will be available soon",
-            colorTheme: "dark"
-        });
+    async function borrow() {
+        const {loanID} = props.loan;
+        const ok = await props.loanContract.acceptLoanRequest(loanID);
+        console.log("-------");
+        console.log(ok);
         closeModal();
     }
 
 const {lender, borrower, smartContractAddressOfNFT, tokenIdNFT, loanAmount, interestAmount, endLoanTimeStamp, maximumPeriod} = props.loan;
 return (
     <li style={styles.listItem}>
-        <Card bg={colors.softGrey}>
-            <h4>Loan Amount: {Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)}</h4> 
+        <Card border={1} borderColor={colors.bluePurple}>
+            <h4>Loan Amount: <br/>{Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH</h4> 
             <div>
-                 <h6>Borrower: {borrower}</h6> 
-                 <h6>SC Address: {smartContractAddressOfNFT} . NFT ID: {tokenIdNFT} </h6> 
-                <div style={styles.description}><p>Interest: {Number(ethers.BigNumber.from(interestAmount).toString()) / Math.pow(10, 18)}</p></div>
-                        <div style={styles.description}><p>End Loan Time Stamp{Number(ethers.BigNumber.from(endLoanTimeStamp).toString())}</p></div>
-                        <div style={styles.description}><p>Max Period: {Number(ethers.BigNumber.from(maximumPeriod).toString())}</p></div>
-                        <Button size={'medium'} onClick={()=> openModal()}>Lend</Button>
+                <p><b>Interest:</b> <br/>{Number(ethers.BigNumber.from(interestAmount).toString()) / Math.pow(10, 18)} ETH</p>
+                <p><b>End Loan Time Stamp:</b> <br/>{Number(ethers.BigNumber.from(endLoanTimeStamp).toString())}</p>
+                <p><b>Max Period:</b> <br/>{Number(ethers.BigNumber.from(maximumPeriod).toString())} months</p>
+                <p><b>Borrower:</b> {borrower}</p> 
+                <p><b> NFT Smart Contract Address:</b>  {smartContractAddressOfNFT}</p> 
+                <p><b>NFT ID:</b> {tokenIdNFT}</p>
+                <Button size={'medium'} onClick={()=> openModal()}>Lend</Button>
             </div>
         </Card>
         <Modal isOpen={isModalOpen}>
@@ -65,8 +67,9 @@ return (
 
                 <Box p={4} mb={3}>
                     <Heading.h3>{translations.t("confirmLiquidation")}</Heading.h3>
-                    <Text>Sure to lend: {loanAmount}?</Text>
-                </Box>
+                    <Text>Sure to lend: {Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH ?</Text>
+                </Box> 
+         
 
                 <Flex
                 px={4}
@@ -76,8 +79,8 @@ return (
                 justifyContent={"flex-end"}
                 >
                 <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
-                <Button ml={3} onClick={()=> borrow()}>{translations.t("confirm")}</Button>
-                </Flex>
+                <Button ml={3} onClick={async ()=> await borrow()}>{translations.t("confirm")}</Button>
+                </Flex> 
             </Card>
         </Modal>
                     

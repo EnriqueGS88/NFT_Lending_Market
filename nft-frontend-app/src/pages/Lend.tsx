@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
+import { ethers } from 'ethers';
 import { AccountProps } from '../components/Tabs';
 import colors from '../config/colors';
 import { useTranslation } from "react-i18next";
-import { Button, ToastMessage, Box, Flex, Field, Input, Text, Modal, Card, Heading } from 'rimble-ui';
 import { Loans } from '../dtos/loans';
 import Moralis from "moralis";
 
@@ -69,6 +69,7 @@ function Lend(props: AccountProps) {
                 <LoanItem
                   key={loanAvailable.loanID.toString()}
                   loan={loanAvailable}
+                  loanContract={props.loanContract}
                 />);
         });
         setLoansELement(loansItems);
@@ -85,20 +86,15 @@ function Lend(props: AccountProps) {
     }
 
 
-    function calculateAvailableToBorrow() {
-        return collateralBalance;
-    }
-
-
     return (
         <div>
             <h3>Lend ETH</h3>
             {props.account !== '' &&
                 <div>
                     <div>
-                    <p>List of Loans</p> 
+                    <p>{translations.t("collateralBalance", { collateralBalance: props.ethBalance }) }</p>
+                    <h4>List of Loans</h4> 
                     <ul style={styles.list}>{loansElement}</ul>
-                    <p>{translations.t("collateralBalance", { collateralBalance: collateralBalance }) }</p>
                     </div>
                     
 
@@ -119,6 +115,8 @@ const styles = {
     },
     list: {
         listStyleType:"none",
+        width: '33%',
+        marginLeft: '33%',
     },
 }
 export default Lend;
