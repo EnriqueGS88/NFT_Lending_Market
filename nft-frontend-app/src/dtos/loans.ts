@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 
 export interface Loans {
     loanID: ethers.BigNumber;
+    nftPrice: number;
     lender: string;
     borrower: string;
     smartContractAddressOfNFT: string;

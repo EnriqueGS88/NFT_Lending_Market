@@ -26,6 +26,8 @@ function Lend(props: AccountProps) {
     const [loans, setLoans] = useState<any[any]>([]);
     const [loansElement, setLoansELement] = useState<JSX.Element[]>();
     const [isLoading, setIsLoading] = useState(false);
+    const [ethUsdPrice, setEthUsdPrice] = useState(0);
+
     
 
     const translations = useTranslation("translations");
@@ -39,7 +41,16 @@ function Lend(props: AccountProps) {
         }
     },[]);
 
+    useEffect(() => {
+        getValuePrice();
+    }, [props.oracleChainLinkContract]);
     
+    const getValuePrice = async () => {
+        if (props.oracleChainLinkContract) {
+            const price = ((await props.oracleChainLinkContract.latestAnswer()).toString() / Math.pow(10, 8));
+            setEthUsdPrice(price);
+        }   
+    }
 
     const getLoans = async () => {        
         const totalLoansRequests = (await props.loanContract.totalLoanRequests()).toString();
@@ -47,8 +58,11 @@ function Lend(props: AccountProps) {
         const loansSC: Loans[] = [];
         for (let i = 0; i < totalLoansRequests; ++i) {
             const loansRequests = await props.loanContract.allLoanRequests(i);
-            const loan: Loans = {
+            console.log("loansREquested", loansRequests)
+            if (loansRequests.status === 0) {
+                const loan: Loans = {
                 loanID: loansRequests["loanID"],
+                nftPrice: Number(localStorage.getItem(`value${loansRequests["tokenIdNFT"]}`)!),
                 lender: loansRequests["lender"],
                 borrower: loansRequests["borrower"],
                 smartContractAddressOfNFT: loansRequests["smartContractAddressOfNFT"],
@@ -59,17 +73,19 @@ function Lend(props: AccountProps) {
                 endLoanTimeStamp: loansRequests["endLoanTimeStamp"],
             }
             loansSC.push(loan);
+            }
+            
         }
-        console.log("loans", loansSC)
         setIsLoading(false);
         const loansItems = [] as JSX.Element[];
         const loansAvailable = deleteLoansWithLenderAndMine(loansSC);
         loansAvailable.forEach((loanAvailable) => {
             loansItems.push(
                 <LoanItem
-                  key={loanAvailable.loanID.toString()}
-                  loan={loanAvailable}
-                  loanContract={props.loanContract}
+                    key={loanAvailable.loanID.toString()}
+                    loan={loanAvailable}
+                    loanContract={props.loanContract}
+                    ethUsdPrice={ethUsdPrice}
                 />);
         });
         setLoansELement(loansItems);

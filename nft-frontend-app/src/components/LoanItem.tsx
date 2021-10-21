@@ -12,6 +12,7 @@ declare const window: any;
 interface Props {
     loan: Loans;
     loanContract: any,
+    ethUsdPrice: any,
 } 
 
 function LoanItem(props: Props) {
@@ -36,10 +37,11 @@ function LoanItem(props: Props) {
         closeModal();
     }
 
-const {lender, borrower, smartContractAddressOfNFT, tokenIdNFT, loanAmount, interestAmount, endLoanTimeStamp, maximumPeriod} = props.loan;
+const {lender, borrower, nftPrice,smartContractAddressOfNFT, tokenIdNFT, loanAmount, interestAmount, endLoanTimeStamp, maximumPeriod} = props.loan;
 return (
     <li style={styles.listItem}>
         <Card border={1} borderColor={colors.bluePurple}>
+            <h4> NFT estimated price: <br /> {(nftPrice/props.ethUsdPrice).toFixed(4)} ETH </h4>
             <h4>Loan Amount: <br/>{Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH</h4> 
             <div>
                 <p><b>Interest:</b> <br/>{Number(ethers.BigNumber.from(interestAmount).toString()) / Math.pow(10, 18)} ETH</p>
