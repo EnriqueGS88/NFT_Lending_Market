@@ -49,10 +49,8 @@ function NFT(props: NFTProps) {
 
 
     async function getPrice(){
-        console.log("getp");
         const price = await props.getNFTprice(props.nft.token_id, props.nft.metadata);
-        console.log(price);
-        setIsLoadingPrice(false);
+        setIsLoadingPrice(true);
     }
     
     return (
@@ -162,42 +160,4 @@ function NFT(props: NFTProps) {
   }
 export default NFT;
 
-    // return (
-    //     <div style={styles.listItem}>
-    //         <Card border={1} borderColor={colors.bluePurple}>
-    //         <h4>{NFTmetadata.name}</h4> 
-
-    //                 {/* <td>
-    //                     <img src={NFTmetadata.image} alt="imageNFT" width="500" height="400" />
-    //                 </td> */}
-
-    //                     {NFTmetadata.attributes && <h6>Attributes: {NFTmetadata.attributes}</h6> }
-    //                     <div style={styles.description}><p>{NFTmetadata.description}</p></div>
-                        
-
-    //                 <form onSubmit={async (event) => {
-    //                     event.preventDefault();
-    //                     await props.depositNFT(loanAmount , props.nft.token_id)}
-    //                 } >
-    //                 <label>{"Set how much ETH would you like"} </label> 
-    //                 <input
-    //                     type="number"
-    //                     min={0.01}
-    //                     step={0.01}
-    //                     onChange={(e:any) => {
-    //                         setLoanAmount(e.target.value);
-    //                     }}
-    //                     value={loanAmount}
-    //                     required={true}
-    //                 />
-    //                 <br/>
-    //                 <div style={styles.groupButtons}>
-    //                     <Button size={'medium'} onClick={async () => {
-    //                         await props.getNFTprice(props.nft.metadata);
-    //                     }}>Calculate NFT Price</Button>
-    //                     <div style={styles.divider}/>
-    //                     <Button type="submit" size={'medium'}>{translations.t("deposit")}</Button>
-    //                 </div>
-    //             </form>
-
-    //     </Card>
+    

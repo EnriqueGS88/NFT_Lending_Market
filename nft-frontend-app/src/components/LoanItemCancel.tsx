@@ -5,6 +5,7 @@ import { Card, Button, Modal, ToastMessage, Flex, Box, Heading, Text} from 'rimb
 import colors from '../config/colors';
 import { useTranslation } from "react-i18next";
 import { Loans } from '../dtos/loans';
+import { Protocol } from '../dtos/protocol';
 
 
 declare const window: any;
@@ -15,6 +16,7 @@ interface Props {
     ethUsdPrice: any,
     setNftLoanPendingConfirmation: Function,
     nftLoanPendingConfirmation: any,
+    protocolVariables: Protocol,
 } 
 
 function LoanItemCancel(props: Props) {
@@ -34,12 +36,19 @@ function LoanItemCancel(props: Props) {
 
     async function cancel() {
         const { loanID } = props.loan;
-        console.log("amount", loanAmount.toString())
-        // let overrides = {
-        //     value: ethers.utils.parseEther((Number(loanAmount.toString()) / Math.pow(10, 18)).toString())     // ether in this case MUST be a string
-        // };
-        await props.loanContract.endLoanRequest(loanID);
-        props.setNftLoanPendingConfirmation([...props.nftLoanPendingConfirmation, loanID])
+        const loanEther = Number(loanAmount.toString()) / Math.pow(10, 18);
+        const interestEther = loanEther * props.protocolVariables.interestRate / 100;
+        const amountToReturn = loanEther + interestEther;
+        let overrides = {
+            value: ethers.utils.parseEther(amountToReturn.toString())   
+        };
+        try {
+            await props.loanContract.endLoanRequest(loanID, overrides);
+            props.setNftLoanPendingConfirmation([...props.nftLoanPendingConfirmation, loanID])
+        } catch (error) {
+            console.log("error", error)
+        }
+        
         closeModal();
     }
 

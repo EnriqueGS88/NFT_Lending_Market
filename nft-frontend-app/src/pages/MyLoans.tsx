@@ -116,6 +116,7 @@ function MyLoans(props: MyLoanProps) {
                     ethUsdPrice={ethUsdPrice}
                     nftLoanPendingConfirmation={nftLoanPendingConfirmation}
                     setNftLoanPendingConfirmation={setNftLoanPendingConfirmation}
+                    protocolVariables={props.protocolVariables}
                 />);
         });
         setLoansELement(loansItems);
