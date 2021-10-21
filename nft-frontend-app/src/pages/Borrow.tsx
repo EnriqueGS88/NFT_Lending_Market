@@ -50,9 +50,9 @@ function Borrow(props: AccountProps) {
     async function getNFT() {
         try {
             const NFTs = await Moralis.Web3API.account.getNFTs({ chain: "rinkeby", address: props.account });
-            // console.log("NFTS", NFTs)
+            console.log("NFTS", NFTs)
             
-            setNfts(NFTs ? NFTs.result : []);
+            setNfts(NFTs ? NFTs.result?.filter(nft => nft.token_address === "0x8950851c462047285fe5502863C73799c5317B51") : []);
             setIsLoading(false);
         } catch (error) {
             console.log("error", error);

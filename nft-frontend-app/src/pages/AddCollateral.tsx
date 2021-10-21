@@ -76,7 +76,8 @@ function AddCollateral(props: AddCollateralProps) {
         const loanAmount = ethers.utils.parseEther(etherAmount.toString());
         const interestAmount = ethers.utils.parseEther(((props.protocolVariables.interestRate / 100) * etherAmount).toString());
         const maximumPeriod = props.protocolVariables.maximumPaybackMonths;
-        const smartContractNFTAddress = "0x3143623f5f13baf4a984ba221291afb0fd81d854";
+        // const smartContractNFTAddress = "0x3143623f5f13baf4a984ba221291afb0fd81d854";
+        const smartContractNFTAddress = "0x8950851c462047285fe5502863C73799c5317B51";
         
         confirmAlert({
             title: "NFT Loan",
