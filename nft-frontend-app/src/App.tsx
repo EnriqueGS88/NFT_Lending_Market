@@ -159,6 +159,7 @@ function App() {
   }, [isConnectionSuccess])
 
   return (
+    <>
     <div style={{textAlign: 'center'}}>
       {isConnectionSuccess &&
         <ToastMessage.Success
@@ -179,9 +180,13 @@ function App() {
       }
 
       <Header account={myAddress} setConnectionSuccess={setConnectionSuccess} setConnectionFailed={setConnectionFailed}></Header>
+      <body>
       <HeaderTabs account={myAddress} ethBalance={ethBalance} getAccount={getMyAccount} protocolVariables={protocolVariables} loanContract={loanContract} provider={provider} realStateValueContract={realStateValueContract} oracleChainLinkContract={oracleChainLinkContract}/>
-      <Footer/>
+      </body>
+      {/* <Footer/> */}
     </div>
+    <Footer/> 
+    </>
   );
 }
 
