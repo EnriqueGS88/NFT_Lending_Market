@@ -35,6 +35,7 @@ function NFT(props: NFTProps) {
     const [isLoadingPrice, setIsLoadingPrice] = useState(false);
     const [contractTransferApproved, setContractTransferApproved] = useState("");
     const [transferApproved, setTransferApproved] = useState(true);
+    const [isLoadingApproval, setIsLoadingApproval] = useState(false);
 
     useEffect(() => {
         if (isLoadingPrice && props.realStateLastValue > 0 && props.nftWaitingForPrice[0] === props.nft.token_id) {
@@ -63,9 +64,20 @@ function NFT(props: NFTProps) {
         
     }, [transferApproved])
 
+    if (props.nftMintContract) {
+        props.nftMintContract.on("Approval", (owner: any, approved: any, token: any) => {
+            if (token.toString() === props.nft.token_id && approved === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98") {
+                setTransferApproved(true);
+                setIsLoadingApproval(false);
+            }
+
+        })
+    }
+
+
 
     async function getPrice(){
-        const price = await props.getNFTprice(props.nft.token_id, props.nft.metadata);
+        await props.getNFTprice(props.nft.token_id, props.nft.metadata);
         setIsLoadingPrice(true);
     }
     
@@ -139,12 +151,11 @@ function NFT(props: NFTProps) {
                             <Button size={'medium'} onClick={() => {
                                 props.depositNFT(loanAmountETH , props.nft.token_id)}
                             }>{translations.t("deposit")} </Button>
-                            :  
-                            <Button size={'medium'} onClick={async() => {
-                                await props.nftMintContract.approve("0x997853A0a4737Caaa3363804BbD2a1c290bf7F98", props.nft.token_id)
-                            }}>{translations.t("approveTransfer")}</Button>
-                                
-                                
+                            : !isLoadingApproval ?
+                                <Button size={'medium'} onClick={async() => {
+                                    await props.nftMintContract.approve("0x997853A0a4737Caaa3363804BbD2a1c290bf7F98", props.nft.token_id)
+                                }}>{translations.t("approveTransfer")}</Button>
+                                : <Loader type="Oval" color="#000" height={70} width={70} />  
                         }
                         
                         </div>
