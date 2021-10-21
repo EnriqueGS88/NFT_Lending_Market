@@ -120,7 +120,7 @@ function Borrow(props: AccountProps) {
 const styles = {
     tabs: {
         width: '50%',
-        backgroundColor: colors.bluePurple
+        backgroundColor: colors.bluePurple,
     },
 }
 export default Borrow;

@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height:100%;
 }
 
 code {
@@ -12,7 +13,7 @@ code {
     monospace;
 }
 .footer{
-  display: grid;
-    align-self: end; /* The trick */
-  background-color: #4E3FCE,
+  position: absolute;
+  bottom: -200%;
+  background-color: #4E3FCE;
 }
