@@ -46,6 +46,14 @@ function NFT(props: NFTProps) {
         }
         
     }, [props.realStateLastValue])
+
+
+    async function getPrice(){
+        console.log("getp");
+        const price = await props.getNFTprice(props.nft.token_id, props.nft.metadata);
+        console.log(price);
+        setIsLoadingPrice(false);
+    }
     
     return (
         <div style={styles.listItem}>
@@ -53,6 +61,11 @@ function NFT(props: NFTProps) {
                 <div>
                     
                     <h4>Token ID: {props.nft.token_id} </h4>
+                    <h4>Token Name: {JSON.parse(props.nft.metadata).name} </h4>
+                    <img src={JSON.parse(props.nft.metadata).image}></img>
+                    <p>Description: {JSON.parse(props.nft.metadata).description} </p>
+                    <h6>Token type: {props.nft.contract_type} </h6>
+                    <h6>Block minted: {props.nft.block_number_minted} </h6>
                 </div>
                 <div>
                     {nftValueUSD
@@ -116,10 +129,7 @@ function NFT(props: NFTProps) {
                         : <>
                             {isLoadingPrice 
                                 ? <Loader type="Oval" color="#000" height={70} width={70} />
-                                : <Button onClick={async () => {
-                                    await props.getNFTprice(props.nft.token_id, props.nft.metadata);
-                                    setIsLoadingPrice(true);
-                                }}>{translations.t("calcularNFTprice")}</Button>
+                                : <Button onClick={async () => await getPrice()}>{translations.t("calcularNFTprice")}</Button>
 
                         }
                         
