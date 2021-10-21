@@ -16,6 +16,7 @@ export interface BorrowProps {
     loans: Array<any>,
     protocolVariables: Protocol,
     loanContract: any,
+    nftMintContract:any,
     realStateValueContract: any,
     oracleChainLinkContract: any,
     provider: any,
@@ -104,7 +105,7 @@ function Borrow(props: AccountProps) {
                     <Tab>My Loans</Tab>
                 </TabList>
                 <TabPanel>
-                    <AddCollateral provider={props.provider} loanContract={props.loanContract} account={props.account} loans={loans} protocolVariables={props.protocolVariables} nfts={nfts} isLoading={isLoading} realStateValueContract={props.realStateValueContract} oracleChainLinkContract={props.oracleChainLinkContract}/>
+                    <AddCollateral  provider={props.provider} nftMintContract={props.nftMintContract} loanContract={props.loanContract} account={props.account} loans={loans} protocolVariables={props.protocolVariables} nfts={nfts} isLoading={isLoading} realStateValueContract={props.realStateValueContract} oracleChainLinkContract={props.oracleChainLinkContract}/>
                 </TabPanel>
                 <TabPanel>
                     <RemoveCollateral provider={props.provider} loanContract={props.loanContract} account={props.account} loans={loans} protocolVariables={props.protocolVariables} setQueryLoans={setQueryLoans} isLoading={isLoading}/>

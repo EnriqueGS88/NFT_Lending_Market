@@ -40,7 +40,7 @@ function Pool(props: AccountProps) {
             {props.account !== '' &&
                 <div>
                     <h6>{translations.t("poolBalance", {poolBalance: poolBalance})}</h6>
-                    <EthAddress style={styles.input} address={'0x99cb784f0429efd72wu39fn4256n8wud4e01c7d2'} />
+                    <EthAddress style={styles.input} address={' '} />
                     
                     <h6>{translations.t("pntkBalance", { pntkBalance: pntkMyBalance }) }</h6>
                 <p>{translations.t("depositEthReceivePntk")}</p>

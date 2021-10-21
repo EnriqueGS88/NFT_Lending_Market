@@ -18,6 +18,7 @@ export interface AddCollateralProps {
     loanContract: any,
     realStateValueContract: any,
     oracleChainLinkContract: any,
+    nftMintContract:any
     provider: any,
     nfts: Array<any>,
     isLoading: boolean,
@@ -150,7 +151,7 @@ function AddCollateral(props: AddCollateralProps) {
                     : userNFTs.length === 0
                         ? <p>{translations.t("noNFT")}</p>
                         : userNFTs.map((nft:any) => (
-                            <NFT key={nft.token_id} nft={nft} protocolVariables={props.protocolVariables} depositNFT={depositNFT} getNFTprice={getNFTprice} setNftWaitingForPrice={setNftWaitingForPrice} realStateLastValue={realStateLastValue} nftWaitingForPrice={nftWaitingForPrice} ethUsdPrice={ethUsdPrice}/>
+                            <NFT nftMintContract={props.nftMintContract} key={nft.token_id} nft={nft} protocolVariables={props.protocolVariables} depositNFT={depositNFT} getNFTprice={getNFTprice} setNftWaitingForPrice={setNftWaitingForPrice} realStateLastValue={realStateLastValue} nftWaitingForPrice={nftWaitingForPrice} ethUsdPrice={ethUsdPrice}/>
                         ))
                 }
                 </div>

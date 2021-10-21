@@ -181,7 +181,7 @@ function App() {
 
       <Header account={myAddress} setConnectionSuccess={setConnectionSuccess} setConnectionFailed={setConnectionFailed}></Header>
       <body>
-      <HeaderTabs account={myAddress} ethBalance={ethBalance} getAccount={getMyAccount} protocolVariables={protocolVariables} loanContract={loanContract} provider={provider} realStateValueContract={realStateValueContract} oracleChainLinkContract={oracleChainLinkContract}/>
+          <HeaderTabs account={myAddress} ethBalance={ethBalance} getAccount={getMyAccount} protocolVariables={protocolVariables} loanContract={loanContract} provider={provider} nftMintContract={mintNFTContract } realStateValueContract={realStateValueContract} oracleChainLinkContract={oracleChainLinkContract}/>
       </body>
       {/* <Footer/> */}
     </div>

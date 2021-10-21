@@ -13,6 +13,7 @@ export interface AccountProps {
   ethBalance: number,
   protocolVariables: Protocol,
   loanContract: any,
+  nftMintContract:any,
   realStateValueContract: any,
   oracleChainLinkContract: any,
   provider: any,
