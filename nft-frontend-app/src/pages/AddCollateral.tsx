@@ -37,7 +37,7 @@ function AddCollateral(props: AddCollateralProps) {
     });
 
     const [nftWaitingForPrice, setNftWaitingForPrice] = useState<any[any]>(localStorage.getItem("nftWaitingPrice") ? JSON.parse(localStorage.getItem("nftWaitingPrice")!) : []);
-    const [realStateLastValue, setRealStateLastValue] = useState(0);
+    const [realStateLastValue, setRealStateLastValue] = useState(10000);
     const [ethUsdPrice, setEthUsdPrice] = useState(0);
 
     const [userNFTs, setUserNFTs] = useState<any[any]>([]);
@@ -47,7 +47,7 @@ function AddCollateral(props: AddCollateralProps) {
         console.log("loans", props.loans);
         console.log("depositsPendingConfirmation", depositsPendingConfirmation);
         const nfts = props.nfts.filter(nft => {
-            return !props.loans.find(loan => loan.tokenIdNFT === Number(nft.token_id) && loan.status === 0) && !depositsPendingConfirmation.includes(nft.token_id)
+            return !props.loans.find(loan => loan.tokenIdNFT === Number(nft.token_id) && loan.status === 0)
         })
         setUserNFTs(nfts);  
     }, [props.nfts, depositsPendingConfirmation])
