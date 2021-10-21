@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import { useState }  from 'react';
+import { useState, useEffect }  from 'react';
 import { ethers } from 'ethers';
 import { Card, Button, Modal, ToastMessage, Flex, Box, Heading, Text} from 'rimble-ui';
 import colors from '../config/colors';
@@ -13,10 +13,13 @@ interface Props {
     loan: Loans;
     loanContract: any,
     ethUsdPrice: any,
+    setNftLoanPendingConfirmation: Function,
+    nftLoanPendingConfirmation: any,
 } 
 
 function LoanItem(props: Props) {
     const [isModalOpen, setModalOpen] = useState(false);
+    const [nftEthPrice, setNftEthPrice] = useState(0);
 
     const translations = useTranslation("translations");
 
@@ -30,18 +33,29 @@ function LoanItem(props: Props) {
 
 
     async function borrow() {
-        const {loanID} = props.loan;
-        const ok = await props.loanContract.acceptLoanRequest(loanID);
-        console.log("-------");
-        console.log(ok);
+        const { loanID } = props.loan;
+        console.log("amount", loanAmount.toString())
+        let overrides = {
+            value: ethers.utils.parseEther((Number(loanAmount.toString()) / Math.pow(10, 18)).toString())     // ether in this case MUST be a string
+        };
+        await props.loanContract.acceptLoanRequest(loanID, overrides);
+        props.setNftLoanPendingConfirmation([...props.nftLoanPendingConfirmation, loanID])
         closeModal();
     }
 
-const {lender, borrower, nftPrice,smartContractAddressOfNFT, tokenIdNFT, loanAmount, interestAmount, endLoanTimeStamp, maximumPeriod} = props.loan;
+    useEffect(() => {
+        console.log(props.ethUsdPrice);
+        if (props.ethUsdPrice > 0) {
+            setNftEthPrice(Number((nftPrice/props.ethUsdPrice).toFixed(4)));
+        }
+    }, [props.ethUsdPrice])
+
+const {lender, borrower, nftPrice, smartContractAddressOfNFT, tokenIdNFT, loanAmount, interestAmount, endLoanTimeStamp, maximumPeriod} = props.loan;
 return (
     <li style={styles.listItem}>
         <Card border={1} borderColor={colors.bluePurple}>
-            <h4> NFT estimated price: <br /> {(nftPrice/props.ethUsdPrice).toFixed(4)} ETH </h4>
+            {console.log(props.ethUsdPrice)}
+            <h4> NFT estimated price: <br /> {nftEthPrice > 0 ? `${nftEthPrice} ETH` : null} </h4>
             <h4>Loan Amount: <br/>{Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH</h4> 
             <div>
                 <p><b>Interest:</b> <br/>{Number(ethers.BigNumber.from(interestAmount).toString()) / Math.pow(10, 18)} ETH</p>

@@ -27,30 +27,50 @@ function Lend(props: AccountProps) {
     const [loansElement, setLoansELement] = useState<JSX.Element[]>();
     const [isLoading, setIsLoading] = useState(false);
     const [ethUsdPrice, setEthUsdPrice] = useState(0);
+    const [nftLoanPendingConfirmation, setNftLoanPendingConfirmation] = useState<any[]>([]);
+    const [queryLoans, setQueryLoans] = useState(true);
+
 
     
 
     const translations = useTranslation("translations");
     
     useEffect(() => {
-        try {
+        if (queryLoans) {
+            setQueryLoans(false);
+            try {
             setIsLoading(true);
             getLoans();
-        } catch {
-            setIsLoading(false);
+            } catch {
+                setIsLoading(false);
+            }
         }
-    },[]);
+        
+    },[ethUsdPrice, queryLoans]);
 
     useEffect(() => {
         getValuePrice();
     }, [props.oracleChainLinkContract]);
+
+    useEffect(() => {
+        const loansStillPendingAccept = [];
+        for (let i = 0; i < nftLoanPendingConfirmation.length; ++i) {
+            if (!loans.find((loan: { loanID: any; status: number; }) => loan.loanID === nftLoanPendingConfirmation[i] && loan.status === 0)) {
+                loansStillPendingAccept.push(nftLoanPendingConfirmation[i]);
+            }
+        }
+        setNftLoanPendingConfirmation(loansStillPendingAccept);
+    }, [loans])
     
     const getValuePrice = async () => {
         if (props.oracleChainLinkContract) {
             const price = ((await props.oracleChainLinkContract.latestAnswer()).toString() / Math.pow(10, 8));
+            console.log("price", price);
             setEthUsdPrice(price);
         }   
     }
+
+    
 
     const getLoans = async () => {        
         const totalLoansRequests = (await props.loanContract.totalLoanRequests()).toString();
@@ -86,6 +106,8 @@ function Lend(props: AccountProps) {
                     loan={loanAvailable}
                     loanContract={props.loanContract}
                     ethUsdPrice={ethUsdPrice}
+                    nftLoanPendingConfirmation={nftLoanPendingConfirmation}
+                    setNftLoanPendingConfirmation={setNftLoanPendingConfirmation}
                 />);
         });
         setLoansELement(loansItems);
@@ -101,6 +123,11 @@ function Lend(props: AccountProps) {
         return loansAvailable;
     }
 
+    if (props.loanContract) {
+        props.loanContract.on("LoansUpdated", (event: any) => {
+            setQueryLoans(true);
+        })
+    }
 
     return (
         <div>
