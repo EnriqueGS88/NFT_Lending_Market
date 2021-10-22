@@ -53,7 +53,7 @@ function Borrow(props: AccountProps) {
             console.log("NFTS", NFTs)
             
             setNfts(NFTs ? NFTs.result?.filter(nft => {
-                return nft.token_address.toUpperCase() ===  "0x8950851c462047285fe5502863C73799c5317B51".toUpperCase()
+                return (nft.token_address.toUpperCase() ===  "0x8950851c462047285fe5502863C73799c5317B51".toUpperCase() && nft.metadata)
             }) : []);
             setIsLoading(false);
         } catch (error) {
