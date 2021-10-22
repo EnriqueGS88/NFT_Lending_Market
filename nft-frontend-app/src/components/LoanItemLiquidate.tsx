@@ -6,6 +6,8 @@ import colors from '../config/colors';
 import { useTranslation } from "react-i18next";
 import { Loans } from '../dtos/loans';
 import { Protocol } from '../dtos/protocol';
+import Loader from 'react-loader-spinner';
+
 
 
 declare const window: any;
@@ -14,14 +16,13 @@ interface Props {
     loan: Loans;
     loanContract: any,
     ethUsdPrice: any,
-    setNftLoanPendingConfirmation: Function,
-    nftLoanPendingConfirmation: any,
     protocolVariables: Protocol,
 } 
 
 function LoanItemLiquidate(props: Props) {
     const [isModalOpen, setModalOpen] = useState(false);
     const [nftEthPrice, setNftEthPrice] = useState(0);
+    const [isLoadingLiquidate, setIsLoadingLiquidate] = useState(false);
 
     const translations = useTranslation("translations");
 
@@ -36,17 +37,20 @@ function LoanItemLiquidate(props: Props) {
 
     async function cancel() {
         const { loanID } = props.loan;
-        const loanEther = Number(loanAmount.toString()) / Math.pow(10, 18);
-        const interestEther = loanEther * props.protocolVariables.interestRate / 100;
-        const amountToReturn = loanEther + interestEther;
         try {
             await props.loanContract.endLoanRequest(loanID);
-            props.setNftLoanPendingConfirmation([...props.nftLoanPendingConfirmation, loanID])
         } catch (error) {
+            setIsLoadingLiquidate(false);
             console.log("error", error)
         }
         
         closeModal();
+    }
+
+    if (props.loanContract) {
+        props.loanContract.on("LoansUpdated", (event: any) => {
+            setIsLoadingLiquidate(false);
+        })
     }
 
     useEffect(() => {
@@ -61,6 +65,7 @@ return (
     <li style={styles.listItem}>
         <Card border={1} borderColor={colors.bluePurple}>
             {console.log(props.ethUsdPrice)}
+            <h3> Token ID <br /> {props.loan.tokenIdNFT}</h3>
             <h4> {translations.t("nftEstimatedPrice")}: <br /> {nftEthPrice > 0 ? `${nftEthPrice} ETH` : null} </h4>
             <h4>{translations.t("loanAmount")}: <br/>{Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH</h4> 
             <div>
@@ -70,7 +75,10 @@ return (
                 <p><b>{translations.t("borrower")}:</b> {borrower}</p> 
                 <p><b> {translations.t("nftSCaddress")}:</b>  {smartContractAddressOfNFT}</p> 
                 <p><b>{translations.t("nftID")}:</b> {tokenIdNFT}</p>
-                <Button size={'medium'} onClick={()=> openModal()}>End the Loan</Button>
+
+                {!isLoadingLiquidate ?
+                        <Button size={'medium'} onClick={() => openModal()}>{translations.t("endTheLoan")}</Button>
+                            : <Loader type="Oval" color="#000" height={70} width={70} />}
             </div>
         </Card>
         <Modal isOpen={isModalOpen}>
@@ -101,7 +109,11 @@ return (
                 justifyContent={"flex-end"}
                 >
                 <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
-                <Button ml={3} onClick={async ()=> await cancel()}>{translations.t("confirm")}</Button>
+                    <Button ml={3} onClick={async () => {
+                        setIsLoadingLiquidate(true);
+                        await cancel();
+                    }
+                    }>{translations.t("confirm")}</Button>
                 </Flex> 
             </Card>
         </Modal>

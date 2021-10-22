@@ -44,8 +44,6 @@ function NFT(props: NFTProps) {
 
     useEffect(() => {
         if (isLoadingPrice && props.realStateLastValue > 0 && props.nftWaitingForPrice[0] === props.nft.token_id) {
-            console.log("tokenId", props.nft.token_id);
-            console.log("props", props.nftWaitingForPrice)
             setNftValueUSD(props.realStateLastValue);
             localStorage.setItem(`value${props.nft.token_id}`, props.realStateLastValue.toString());
             const nftWaiting = props.nftWaitingForPrice.length > 1 ? props.nftWaitingForPrice.shift() : [];
@@ -77,7 +75,9 @@ function NFT(props: NFTProps) {
         if (etherAmount <= 0) return;
 
         const loanAmount = ethers.utils.parseEther(etherAmount.toString());
-        const interestAmount = ethers.utils.parseEther(((props.protocolVariables.interestRate / 100) * etherAmount).toString());
+        const interes = ((props.protocolVariables.interestRate / 100) * etherAmount).toFixed(5);
+        console.log("interes", interes)
+        const interestAmount = ethers.utils.parseEther(interes);
         const maximumPeriod = props.protocolVariables.maximumPaybackMonths;
         // const smartContractNFTAddress = "0x3143623f5f13baf4a984ba221291afb0fd81d854";
         const smartContractNFTAddress = "0x8950851c462047285fe5502863C73799c5317B51";

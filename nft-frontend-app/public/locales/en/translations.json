@@ -71,5 +71,6 @@
     "sureToEndLoan": "Sure to end the loan? You will have to pay back",
     "sureToEndLoanNFT": "Sure to end the loan? You get the NFT",
     "valueEquivalent": "This NFT has a value of {{valueUSD}} $, which is equivalent to {{valueETH}} ETH",
-    "noLendsPending": "You do not have any loans pending approval" 
+    "noLendsPending": "You do not have any loans pending approval",
+    "endTheLoan": "End the Loan" 
 }

@@ -28,7 +28,6 @@ function Liquidate(props: LiquidateProps) {
     const [loansElement, setLoansELement] = useState<JSX.Element[]>();
     const [isLoading, setIsLoading] = useState(false);
     const [ethUsdPrice, setEthUsdPrice] = useState(0);
-    const [nftLoanPendingConfirmation, setNftLoanPendingConfirmation] = useState<any[]>([]);
     const [queryLoans, setQueryLoans] = useState(true);
 
 
@@ -50,17 +49,6 @@ function Liquidate(props: LiquidateProps) {
     },[ethUsdPrice, queryLoans]);
 
  
-    useEffect(() => {
-        const loansStillPendingAccept = [];
-        for (let i = 0; i < nftLoanPendingConfirmation.length; ++i) {
-            if (!loans.find((loan: { loanID: any; status: number; }) => loan.loanID === nftLoanPendingConfirmation[i] && loan.status === 0)) {
-                loansStillPendingAccept.push(nftLoanPendingConfirmation[i]);
-            }
-        }
-        setNftLoanPendingConfirmation(loansStillPendingAccept);
-    }, [loans])
-    
-
     
     const getLoans = async () => {        
         const totalLoansRequests = (await props.loanContract.totalLoanRequests()).toString();
@@ -96,8 +84,6 @@ function Liquidate(props: LiquidateProps) {
                     loan={loanAvailable}
                     loanContract={props.loanContract}
                     ethUsdPrice={ethUsdPrice}
-                    nftLoanPendingConfirmation={nftLoanPendingConfirmation}
-                    setNftLoanPendingConfirmation={setNftLoanPendingConfirmation}
                     protocolVariables={props.protocolVariables}
                 />);
         });

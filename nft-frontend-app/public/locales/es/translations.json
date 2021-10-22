@@ -71,5 +71,6 @@
     "sureToEndLoan": "Estas seguro de cerrar el préstamo? Tendrás que pagar",
     "sureToEndLoanNFT": "Estas seguro de cerrar el préstamo? Obtendrás el NFT",
     "valueEquivalent": "Este NFT tiene un valor de {{valueUSD}} $, que es equivalente a {{valueETH}} ETH",
-    "noLendsPending": "No tiene ningun préstamo pendiente de aprovación"
+    "noLendsPending": "No tiene ningun préstamo pendiente de aprovación",
+    "endTheLoan": "Terminar el prestamo"
 }

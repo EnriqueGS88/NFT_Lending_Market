@@ -71,6 +71,7 @@ function LoanItemCancel(props: Props) {
         <li style={styles.listItem}>
             <Card border={1} borderColor={colors.bluePurple}>
                 {console.log(props.ethUsdPrice)}
+            <h3> Token ID <br /> {props.loan.tokenIdNFT}</h3>
             <h4> {translations.t("nftEstimatedPrice")}: <br /> {nftEthPrice > 0 ? `${nftEthPrice} ETH` : null} </h4>
             <h4>{translations.t("loanAmount")}: <br/>{Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH</h4> 
             <div>
@@ -79,8 +80,11 @@ function LoanItemCancel(props: Props) {
                 <p><b>{translations.t("maxPeriod")}:</b> <br/>{Number(ethers.BigNumber.from(maximumPeriod).toString())} months</p>
                 <p><b>{translations.t("borrower")}:</b> {borrower}</p> 
                 <p><b> {translations.t("nftSCaddress")}:</b>  {smartContractAddressOfNFT}</p> 
-                <p><b>{translations.t("nftID")}:</b> {tokenIdNFT}</p>
-                    <Button size={'medium'} onClick={()=> openModal()}>End the Loan</Button>
+                    <p><b>{translations.t("nftID")}:</b> {tokenIdNFT}</p>
+                     {!isLoadingCancel ?
+                        <Button size={'medium'} onClick={() => openModal()}>{translations.t("endTheLoan")}</Button>
+                            : <Loader type="Oval" color="#000" height={70} width={70} />}
+                   
                 </div>
             </Card>
             <Modal isOpen={isModalOpen}>
@@ -111,13 +115,13 @@ function LoanItemCancel(props: Props) {
                     justifyContent={"flex-end"}
                     >
                     <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
-                        {!isLoadingCancel ?
+                       
                             <Button ml={3} onClick={async () => {
                                 setIsLoadingCancel(true);
                                 await cancel();
                             }
                             }>{translations.t("confirm")}</Button>
-                            : <Loader type="Oval" color="#000" height={70} width={70} />}
+                            
                     
                     </Flex> 
                 </Card>

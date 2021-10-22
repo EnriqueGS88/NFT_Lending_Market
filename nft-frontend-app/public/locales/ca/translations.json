@@ -68,9 +68,10 @@
     "nftID": "NFT ID",
     "lend": "Prestar",
     "sureToLend": "Estas segur que vols prestar",
-    "sureToEndLoan": "Estas segur d'acabar el préstec? Tindrás que pagar",
+    "sureToEndLoan": "Estas segur de tornar el préstec? Tindrás que pagar",
     "sureToEndLoanNFT": "Estas segur d'acabar el préstec? Obtindrás el NFT",
     "valueEquivalent": "Aquest NFT té un valor de {{valueUSD}} $, que és equivalent a {{valueETH}} ETH",
-    "noLendsPending": "No té cap préstec pendent d'acceptació"
+    "noLendsPending": "No té cap préstec pendent d'acceptació",
+    "endTheLoan": "Acabar el préstec"
 
 }

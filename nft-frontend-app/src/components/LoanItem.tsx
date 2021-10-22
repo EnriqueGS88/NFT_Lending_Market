@@ -14,8 +14,7 @@ interface Props {
     loan: Loans;
     loanContract: any,
     ethUsdPrice: any,
-    setNftLoanPendingConfirmation: Function,
-    nftLoanPendingConfirmation: any,
+
 } 
 
 function LoanItem(props: Props) {
@@ -41,7 +40,6 @@ function LoanItem(props: Props) {
         };
         try {
             await props.loanContract.acceptLoanRequest(loanID, overrides);
-            props.setNftLoanPendingConfirmation([...props.nftLoanPendingConfirmation, loanID])
         } catch (error) {
             setIsLoadingLoan(false);
         }
@@ -68,6 +66,7 @@ return (
     <li style={styles.listItem}>
         <Card border={1} borderColor={colors.bluePurple}>
             {console.log(props.ethUsdPrice)}
+            <h3> Token ID <br /> {props.loan.tokenIdNFT}</h3>
             <h4> {translations.t("nftEstimatedPrice")}: <br /> {nftEthPrice > 0 ? `${nftEthPrice} ETH` : null} </h4>
             <h4>{translations.t("loanAmount")}: <br/>{Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH</h4> 
             <div>
@@ -77,7 +76,10 @@ return (
                 <p><b>{translations.t("borrower")}:</b> {borrower}</p> 
                 <p><b> {translations.t("nftSCaddress")}:</b>  {smartContractAddressOfNFT}</p> 
                 <p><b>{translations.t("nftID")}:</b> {tokenIdNFT}</p>
-                <Button size={'medium'} onClick={() => openModal()}>{translations.t("lend")}</Button>
+                {!isLoadingLoan ?
+                        <Button size={'medium'} onClick={() => openModal()}>{translations.t("lend")}</Button>
+                        : <Loader type="Oval" color="#000" height={70} width={70} />}
+                
             </div>
         </Card>
         <Modal isOpen={isModalOpen}>
@@ -108,13 +110,12 @@ return (
                 justifyContent={"flex-end"}
                 >
                 <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
-                    {!isLoadingLoan ?
+                   
                         <Button ml={3} onClick={async () => {
                             setIsLoadingLoan(true);
                             await borrow();
                         }
                         }>{translations.t("confirm")}</Button>
-                        : <Loader type="Oval" color="#000" height={70} width={70} />}
                     
                 </Flex> 
             </Card>

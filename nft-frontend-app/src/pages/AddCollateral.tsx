@@ -41,7 +41,7 @@ function AddCollateral(props: AddCollateralProps) {
             return !props.loans.find(loan => loan.tokenIdNFT === Number(nft.token_id) && loan.status === 0)
         })
         setUserNFTs(nfts);
-    }, [props.nfts])
+    }, [props.nfts, props.loans])
 
 
     useEffect(() => {
