@@ -131,12 +131,12 @@ function Lend(props: AccountProps) {
 
     return (
         <div>
-            <h3>Lend ETH</h3>
+            <h3>{ translations.t("lendETH")}</h3>
             {props.account !== '' &&
                 <div>
                     <div>
                     <p>{translations.t("collateralBalance", { collateralBalance: props.ethBalance }) }</p>
-                    <h4>List of Loans</h4> 
+                    <h4>{translations.t("listLoans")}</h4>
                     <ul style={styles.list}>{loansElement}</ul>
                     </div>
                 </div>

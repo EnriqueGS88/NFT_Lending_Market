@@ -61,16 +61,15 @@ return (
     <li style={styles.listItem}>
         <Card border={1} borderColor={colors.bluePurple}>
             {console.log(props.ethUsdPrice)}
-            <h4> NFT estimated price: <br /> {nftEthPrice > 0 ? `${nftEthPrice} ETH` : null} </h4>
-            <h4>Loan Amount: <br/>{Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH</h4> 
+            <h4> {translations.t("nftEstimatedPrice")}: <br /> {nftEthPrice > 0 ? `${nftEthPrice} ETH` : null} </h4>
+            <h4>{translations.t("loanAmount")}: <br/>{Number(ethers.BigNumber.from(loanAmount).toString()) / Math.pow(10, 18)} ETH</h4> 
             <div>
-                <p><b>Lender:</b> {lender}</p> 
-                <p><b>Interest:</b> <br/>{Number(ethers.BigNumber.from(interestAmount).toString()) / Math.pow(10, 18)} ETH</p>
-                <p><b>End Loan Time Stamp:</b> <br/>{Number(ethers.BigNumber.from(endLoanTimeStamp).toString())}</p>
-                <p><b>Max Period:</b> <br/>{Number(ethers.BigNumber.from(maximumPeriod).toString())} months</p>
-               
-                <p><b> NFT Smart Contract Address:</b>  {smartContractAddressOfNFT}</p> 
-                <p><b>NFT ID:</b> {tokenIdNFT}</p>
+                <p><b>{translations.t("interest")}:</b> <br/>{Number(ethers.BigNumber.from(interestAmount).toString()) / Math.pow(10, 18)} ETH</p>
+                <p><b>{translations.t("endLoanTimestamp")}:</b> <br/>{Number(ethers.BigNumber.from(endLoanTimeStamp).toString())}</p>
+                <p><b>{translations.t("maxPeriod")}:</b> <br/>{Number(ethers.BigNumber.from(maximumPeriod).toString())} months</p>
+                <p><b>{translations.t("borrower")}:</b> {borrower}</p> 
+                <p><b> {translations.t("nftSCaddress")}:</b>  {smartContractAddressOfNFT}</p> 
+                <p><b>{translations.t("nftID")}:</b> {tokenIdNFT}</p>
                 <Button size={'medium'} onClick={()=> openModal()}>End the Loan</Button>
             </div>
         </Card>
@@ -90,7 +89,7 @@ return (
 
                 <Box p={4} mb={3}>
                     <Heading.h3>{translations.t("confirmLiquidation")}</Heading.h3>
-                    <Text>Sure to end the loan? You get the NFT</Text>
+                    <Text>{translations.t("sureToEndLoanNFT")}</Text>
                 </Box> 
          
 

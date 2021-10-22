@@ -6,19 +6,22 @@ import { Card, Button, Modal, ToastMessage, Flex, Box, Heading, Text} from 'rimb
 import colors from '../config/colors';
 import { useTranslation } from "react-i18next";
 import { Protocol } from '../dtos/protocol';
-import { NFTObject } from '../dtos/nft';
+import { ethers } from 'ethers';
+import { confirmAlert } from 'react-confirm-alert';
+    import "react-confirm-alert/src/react-confirm-alert.css";
 
 export interface NFTProps {
     key: number,
     nft: any,
     protocolVariables: Protocol,
-    depositNFT: Function,
     getNFTprice: Function,
     realStateLastValue: number,
     nftWaitingForPrice: any,
     setNftWaitingForPrice: Function,
     ethUsdPrice: number,
-    nftMintContract:any,
+    nftMintContract: any,
+    loanContract: any,
+
 }
 
 function NFT(props: NFTProps) {
@@ -30,12 +33,14 @@ function NFT(props: NFTProps) {
     const [loanAmountUSD, setLoanAmountUSD] = useState(0);
     const [loanAmountETH, setLoanAmountETH] = useState<any>(0);
 
-    const [nftValueUSD, setNftValueUSD] = useState<any>(0);
+    const [nftValueUSD, setNftValueUSD] = useState<any>(1000);
     const [isPriceUSD, setIsPriceUSD] = useState(true);
     const [isLoadingPrice, setIsLoadingPrice] = useState(false);
     const [contractTransferApproved, setContractTransferApproved] = useState("");
     const [transferApproved, setTransferApproved] = useState(true);
     const [isLoadingApproval, setIsLoadingApproval] = useState(false);
+    const [isLoadingDeposit, setIsLoadingDeposit] = useState(false);
+
 
     useEffect(() => {
         if (isLoadingPrice && props.realStateLastValue > 0 && props.nftWaitingForPrice[0] === props.nft.token_id) {
@@ -53,8 +58,11 @@ function NFT(props: NFTProps) {
 
     useEffect(() => {
         const approved = async () => {
-            const res = await props.nftMintContract.getApproved(props.nft.token_id);
-            setContractTransferApproved(res);
+            if (props.nftMintContract) {
+                const res = await props.nftMintContract.getApproved(props.nft.token_id);
+                setContractTransferApproved(res);
+            }
+            
         }
 
         if (transferApproved) {
@@ -64,6 +72,39 @@ function NFT(props: NFTProps) {
         
     }, [transferApproved])
 
+    function depositNFT(etherAmount: any, tokenId: number) {
+        console.log("etheramount", etherAmount)
+        if (etherAmount <= 0) return;
+
+        const loanAmount = ethers.utils.parseEther(etherAmount.toString());
+        const interestAmount = ethers.utils.parseEther(((props.protocolVariables.interestRate / 100) * etherAmount).toString());
+        const maximumPeriod = props.protocolVariables.maximumPaybackMonths;
+        // const smartContractNFTAddress = "0x3143623f5f13baf4a984ba221291afb0fd81d854";
+        const smartContractNFTAddress = "0x8950851c462047285fe5502863C73799c5317B51";
+        
+        confirmAlert({
+            title:  translations.t("nftLoan") ,
+            message: translations.t("sureDoLoan", {etherAmount: etherAmount}),
+            buttons: [
+                {
+                    label: "Yes",
+                    onClick: async () => {
+                        try {
+                            await props.loanContract.createLoanRequest(smartContractNFTAddress, tokenId, loanAmount, interestAmount, maximumPeriod);
+                        } catch (error) {
+                            setIsLoadingDeposit(false);
+                            console.log("error", error);
+                        }
+                    }
+                },
+                {
+                    label: "No",
+                    onClick: () => {}
+                }
+            ]
+        });  
+    }
+
     if (props.nftMintContract) {
         props.nftMintContract.on("Approval", (owner: any, approved: any, token: any) => {
             if (token.toString() === props.nft.token_id && approved.toUpperCase() === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98".toUpperCase()) {
@@ -71,6 +112,12 @@ function NFT(props: NFTProps) {
                 setIsLoadingApproval(false);
             }
 
+        })
+    }
+
+    if (props.loanContract) {
+        props.loanContract.on("LoansUpdated", (event: any) => {
+            if (isLoadingDeposit) setIsLoadingDeposit(false);
         })
     }
 
@@ -86,23 +133,24 @@ function NFT(props: NFTProps) {
             <Card border={1} borderColor={colors.bluePurple}>
                 <div>
                     
-                    <h4>Token ID: {props.nft.token_id} </h4>
-                    <h4>Token Name: {JSON.parse(props.nft.metadata).name} </h4>
+                    <h4>{ translations.t("tokenID", {tokenId: props.nft.token_id})} </h4>
+                    <h4>{translations.t("tokenName", { name: JSON.parse(props.nft.metadata).name })} </h4>
                     <img src={JSON.parse(props.nft.metadata).image}></img>
-                    <p>Description: {JSON.parse(props.nft.metadata).description} </p>
-                    <h6>Token type: {props.nft.contract_type} </h6>
-                    <h6>Block minted: {props.nft.block_number_minted} </h6>
+                    <p>{translations.t("description", { description: JSON.parse(props.nft.metadata).description})} </p>
+                    <h6>{translations.t("tokenType", { type: props.nft.contract_type })}</h6>
+                    <h6>{translations.t("blockMinted", { block: props.nft.block_number_minted })} </h6>
                 </div>
                 <div>
-                    {nftValueUSD
+                    {nftValueUSD 
                         ? <>
-                            <div>
-                                <p>{`This NFT has a value of ${nftValueUSD} $, which is equivalent to ${(nftValueUSD / props.ethUsdPrice).toFixed(4)} ETH`} </p>
+                            
+                            {contractTransferApproved.toUpperCase() === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98".toUpperCase()
+                                ? isPriceUSD ?
+                                    <>
+                                        <div>
+                                <p>{translations.t("valueEquivalent", {valueUSD: nftValueUSD, valueETH: (nftValueUSD / props.ethUsdPrice).toFixed(4)})} </p>
                             </div>
-                            <p> You can only ask a maximum of the 50% of the asset </p>
-                            {isPriceUSD
-                                ?
-                                <>
+                            <p> {translations.t("ask50")} </p>
                                     <label>USD </label> 
                                     <input
                                         type="number"
@@ -142,18 +190,22 @@ function NFT(props: NFTProps) {
                                         placeholder={loanAmountUSD.toString()}
                                     />
                                 </>
-                           
-                            }
+                                : null}
+                            
                              <br/>
                         <div style={styles.groupButtons}>
                         {contractTransferApproved.toUpperCase() === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98".toUpperCase()
                             ?
-                            <Button size={'medium'} onClick={() => {
-                                props.depositNFT(loanAmountETH , props.nft.token_id)}
-                            }>{translations.t("deposit")} </Button>
+                            !isLoadingDeposit ?
+                                 <Button size={'medium'} onClick={() => {
+                                    depositNFT(loanAmountETH , props.nft.token_id)
+                                    setIsLoadingDeposit(true);
+                                }}>{translations.t("deposit")} </Button>
+                                : <Loader type="Oval" color="#000" height={70} width={70} />  
                             : !isLoadingApproval ?
                                 <Button size={'medium'} onClick={async() => {
                                     await props.nftMintContract.approve("0x997853A0a4737Caaa3363804BbD2a1c290bf7F98", props.nft.token_id)
+                                    setIsLoadingApproval(true);
                                 }}>{translations.t("approveTransfer")}</Button>
                                 : <Loader type="Oval" color="#000" height={70} width={70} />  
                         }

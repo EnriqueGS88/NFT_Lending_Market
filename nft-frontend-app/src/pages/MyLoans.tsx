@@ -33,11 +33,8 @@ function MyLoans(props: MyLoanProps) {
     const [loansElement, setLoansELement] = useState<JSX.Element[]>();
     const [isLoading, setIsLoading] = useState(false);
     const [ethUsdPrice, setEthUsdPrice] = useState(0);
-    const [nftLoanPendingConfirmation, setNftLoanPendingConfirmation] = useState<any[]>([]);
     const [queryLoans, setQueryLoans] = useState(true);
 
-
-    
 
     const translations = useTranslation("translations");
     
@@ -58,16 +55,7 @@ function MyLoans(props: MyLoanProps) {
         getValuePrice();
     }, [props.oracleChainLinkContract]);
 
-    useEffect(() => {
-        const loansStillPendingAccept = [];
-        for (let i = 0; i < nftLoanPendingConfirmation.length; ++i) {
-            if (!loans.find((loan: { loanID: any; status: number; }) => loan.loanID === nftLoanPendingConfirmation[i] && loan.status === 0)) {
-                loansStillPendingAccept.push(nftLoanPendingConfirmation[i]);
-            }
-        }
-        setNftLoanPendingConfirmation(loansStillPendingAccept);
-    }, [loans])
-    
+
     const getValuePrice = async () => {
         if (props.oracleChainLinkContract) {
             const price = ((await props.oracleChainLinkContract.latestAnswer()).toString() / Math.pow(10, 8));
@@ -116,8 +104,6 @@ function MyLoans(props: MyLoanProps) {
                     loan={loanAvailable}
                     loanContract={props.loanContract}
                     ethUsdPrice={ethUsdPrice}
-                    nftLoanPendingConfirmation={nftLoanPendingConfirmation}
-                    setNftLoanPendingConfirmation={setNftLoanPendingConfirmation}
                     protocolVariables={props.protocolVariables}
                 />);
         });
@@ -137,12 +123,12 @@ function MyLoans(props: MyLoanProps) {
 
     return (
         <div>
-            <h3>My Loans</h3>
+            <h3>{translations.t("myLoans")}</h3>
             {props.account !== '' &&
                 <div>
                     <div>
                     <p>{translations.t("collateralBalance", { collateralBalance: props.ethBalance }) }</p>
-                    <h4>List of Loans</h4> 
+                    <h4>{translations.t("listLoans")}</h4> 
                     <ul style={styles.list}>{loansElement}</ul>
                     </div>
                     

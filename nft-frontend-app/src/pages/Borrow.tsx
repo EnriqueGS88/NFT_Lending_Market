@@ -31,6 +31,8 @@ function Borrow(props: AccountProps) {
     const [queryLoans, setQueryLoans] = useState(true);
     const [queryNFTs, setQueryNFTs] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingCancel, setIsLoadingCancel] = useState(false);
+
     
 
     const getLoans = async () => {       
@@ -110,7 +112,7 @@ function Borrow(props: AccountProps) {
                     <AddCollateral  provider={props.provider} nftMintContract={props.nftMintContract} loanContract={props.loanContract} account={props.account} loans={loans} protocolVariables={props.protocolVariables} nfts={nfts} isLoading={isLoading} realStateValueContract={props.realStateValueContract} oracleChainLinkContract={props.oracleChainLinkContract}/>
                 </TabPanel>
                 <TabPanel>
-                    <RemoveCollateral provider={props.provider} loanContract={props.loanContract} account={props.account} loans={loans} protocolVariables={props.protocolVariables} setQueryLoans={setQueryLoans} isLoading={isLoading}/>
+                    <RemoveCollateral provider={props.provider} loanContract={props.loanContract}  account={props.account} loans={loans} protocolVariables={props.protocolVariables} setQueryLoans={setQueryLoans} isLoading={isLoading}/>
                 </TabPanel>
                 <TabPanel>
                     <MyLoans provider={props.provider} loanContract={props.loanContract} account={props.account} loans={loans} protocolVariables={props.protocolVariables} isLoading={isLoading} ethBalance={props.ethBalance} oracleChainLinkContract={props.oracleChainLinkContract}/>

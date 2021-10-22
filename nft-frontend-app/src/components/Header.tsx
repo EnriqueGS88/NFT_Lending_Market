@@ -42,7 +42,7 @@ function Header(props: Props) {
           <div style={styles.headerItemCenter}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <a style={styles.link} href="/" target='_blank'>
-                <h1 style={styles.title}>Real Estate NFT Collateral for Loans</h1>
+                <h1 style={styles.title}>{translations.t("title")}</h1>
               </a>
             </div>
             <div>

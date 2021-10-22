@@ -90,11 +90,9 @@ function App() {
     try {
       const ApiKeyInfura = "3d3bf2148fb84332a81b6d7cab711de9";
       const provider = new ethers.providers.InfuraProvider("homestead", ApiKeyInfura);
-      console.log("provider", provider)
       const ApiTokenEtherscan = "73T2GI2P7GWCFGFGIAJ1VSJCUXG2TDDXES";
       const smartContractChainlinkAddress = "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419";
       const contractAbi = await getABI(ApiTokenEtherscan, smartContractChainlinkAddress, "mainnet");
-      console.log("contractABi", contractAbi)
       const ABI = JSON.parse(contractAbi);
 
       setOracleChainLinkContract(new ethers.Contract(smartContractChainlinkAddress, ABI, provider));

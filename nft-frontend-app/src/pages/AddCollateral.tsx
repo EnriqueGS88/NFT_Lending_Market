@@ -27,80 +27,28 @@ export interface AddCollateralProps {
 function AddCollateral(props: AddCollateralProps) {
 
     const translations = useTranslation("translations");
-    const [depositsPendingConfirmation, setDepositsPendingConfirmation] = useState<any[number]>(() => {
-         const pending = localStorage.getItem("depositsPendingConfirmation");
-        if (pending) {
-            return JSON.parse(pending) 
-        } else {
-            return [];
-        }
-    });
-
+    
     const [nftWaitingForPrice, setNftWaitingForPrice] = useState<any[any]>(localStorage.getItem("nftWaitingPrice") ? JSON.parse(localStorage.getItem("nftWaitingPrice")!) : []);
     const [realStateLastValue, setRealStateLastValue] = useState(0);
     const [ethUsdPrice, setEthUsdPrice] = useState(0);
 
+
     const [userNFTs, setUserNFTs] = useState<any[any]>([]);
 
     useEffect(() => {
-        console.log("depositsPendingConfirmation", depositsPendingConfirmation);
+        console.log("nfts", props.nfts);
         const nfts = props.nfts.filter(nft => {
-            return !props.loans.find(loan => loan.tokenIdNFT === Number(nft.token_id) && loan.status === 0) && (!depositsPendingConfirmation || depositsPendingConfirmation.length === 0 || !depositsPendingConfirmation.includes(nft.token_id))
+            return !props.loans.find(loan => loan.tokenIdNFT === Number(nft.token_id) && loan.status === 0)
         })
-        setUserNFTs(nfts);  
-    }, [props.nfts, depositsPendingConfirmation])
+        setUserNFTs(nfts);
+    }, [props.nfts])
 
-    useEffect(() => {
-        const depositsStillPending = [];
-        for (let i = 0; i < depositsPendingConfirmation.length; ++i) {
-            if (!props.loans.find(loan => loan.tokenIdNFT === depositsPendingConfirmation[i] && loan.status === 0)) {
-                depositsStillPending.push(depositsPendingConfirmation[i]);
-            }
-        }
-        localStorage.setItem("depositsPendingConfirmation", JSON.stringify(depositsStillPending));
-        setDepositsPendingConfirmation(depositsStillPending);
-    }, [props.loans])
 
     useEffect(() => {
         getValuePrice();
     }, [props.oracleChainLinkContract]);
 
 
-    
-    function depositNFT(etherAmount: any, tokenId: number) {
-        console.log("etheramount", etherAmount)
-        if (etherAmount <= 0) return;
-
-        const loanAmount = ethers.utils.parseEther(etherAmount.toString());
-        const interestAmount = ethers.utils.parseEther(((props.protocolVariables.interestRate / 100) * etherAmount).toString());
-        const maximumPeriod = props.protocolVariables.maximumPaybackMonths;
-        // const smartContractNFTAddress = "0x3143623f5f13baf4a984ba221291afb0fd81d854";
-        const smartContractNFTAddress = "0x8950851c462047285fe5502863C73799c5317B51";
-        
-        confirmAlert({
-            title: "NFT Loan",
-            message: `Are you sure you want to ask ${etherAmount} ETH for your NFT?`,
-            buttons: [
-                {
-                    label: "Yes",
-                    onClick: async () => {
-                        try {
-                            await props.loanContract.createLoanRequest(smartContractNFTAddress, tokenId, loanAmount, interestAmount, maximumPeriod);
-                            const depositsUpdated = depositsPendingConfirmation.length > 0 ? depositsPendingConfirmation.push(tokenId) : [tokenId];
-                            localStorage.setItem("depositsPendingConfirmation", JSON.stringify(depositsUpdated));
-                            setDepositsPendingConfirmation(depositsUpdated);
-                        } catch (error) {
-                            console.log("error", error);
-                        }
-                    }
-                },
-                {
-                    label: "No",
-                    onClick: () => {}
-                }
-            ]
-        });  
-    }
 
         
     async function getNFTprice(tokenId: number, nftMetadata: any) {
@@ -150,7 +98,7 @@ function AddCollateral(props: AddCollateralProps) {
                     : userNFTs.length === 0
                         ? <p>{translations.t("noNFT")}</p>
                         : userNFTs.map((nft:any) => (
-                            <NFT nftMintContract={props.nftMintContract} key={nft.token_id} nft={nft} protocolVariables={props.protocolVariables} depositNFT={depositNFT} getNFTprice={getNFTprice} setNftWaitingForPrice={setNftWaitingForPrice} realStateLastValue={realStateLastValue} nftWaitingForPrice={nftWaitingForPrice} ethUsdPrice={ethUsdPrice}/>
+                            <NFT nftMintContract={props.nftMintContract} key={nft.token_id} nft={nft} protocolVariables={props.protocolVariables} getNFTprice={getNFTprice} setNftWaitingForPrice={setNftWaitingForPrice} realStateLastValue={realStateLastValue} nftWaitingForPrice={nftWaitingForPrice} loanContract={props.loanContract} ethUsdPrice={ethUsdPrice}/>
                         ))
                 }
                 </div>

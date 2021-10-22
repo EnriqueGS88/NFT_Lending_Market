@@ -17,30 +17,14 @@ export interface LoansProps {
 function RemoveCollateral(props: LoansProps) {
 
     const translations = useTranslation("translations");
-    const [loansPending, setLoansPending] = useState<any[any]>([])
-    const [loansCanceledPendingConfirmation, setLoansCanceledPendingConfirmation] = useState<any[any]>(() => {
-        const pending = localStorage.getItem("loansPendingCancelation");
-        if (pending) {
-            return JSON.parse(pending) 
-        } else {
-            return [];
-        }
-    });
+    const [loansPending, setLoansPending] = useState<any[any]>([]);
+
+
 
 
     useEffect(() => {
-        const loansToBeCancelled:any = [];
-        for (let i = 0; i < loansCanceledPendingConfirmation.length; ++i) {
-            if (props.loans.find(loan => loan.loanID.toString() === loansCanceledPendingConfirmation[i] && loan.status === 0)) {
-                loansToBeCancelled.push(loansCanceledPendingConfirmation[i]);
-            }
-        }
-
-        localStorage.setItem("loansPendingCancelation", JSON.stringify(loansToBeCancelled));
-        setLoansCanceledPendingConfirmation(loansToBeCancelled);
-
         const loansFiltered = props.loans.length > 0 ? props.loans.filter(loan => {
-            return loan.status === 0 && loan.borrower === props.account && !loansToBeCancelled.includes(loan.loanID.toString());
+            return loan.status === 0 && loan.borrower === props.account;
         }) : [];
         setLoansPending(loansFiltered);
 
@@ -49,22 +33,9 @@ function RemoveCollateral(props: LoansProps) {
     
 
     
-    async function cancelDeposit(loanID: number) {
-       
-        try {
-            await props.loanContract.cancelLoanRequest(loanID);
-            setLoansCanceledPendingConfirmation(loansCanceledPendingConfirmation.push(loanID));
-            const newListLoans = loansPending.filter((loan:any) => loan.loanID.toString() !== loanID  && loan.status === 0);
-            setLoansPending(newListLoans);
-        } catch (error) {
-            console.log("error", error);
-        }
-    }
-    
 
     return (
         <div>
-            {console.log("loans", loansPending)}
             <h3>{translations.t("removeCollateral")}</h3>
             {props.account !== '' &&
                 <div>
@@ -73,7 +44,7 @@ function RemoveCollateral(props: LoansProps) {
                     : loansPending.length === 0
                         ? <p>{translations.t("noLendsPending")}</p>
                         : loansPending.map((loan:any) => (
-                            <Loan key={loan.loanID.toString()} loan={loan} protocolVariables={props.protocolVariables} cancelDeposit={cancelDeposit} />
+                            <Loan key={loan.loanID.toString()} loan={loan} loanContract={props.loanContract} protocolVariables={props.protocolVariables} />
                         ))
                 }
                 </div>
