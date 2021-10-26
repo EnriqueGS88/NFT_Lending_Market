@@ -57,10 +57,13 @@ function NFT(props: NFTProps) {
     useEffect(() => {
         const approved = async () => {
             if (props.nftMintContract) {
-                const res = await props.nftMintContract.getApproved(props.nft.token_id);
-                setContractTransferApproved(res);
+                try {
+                    const res = await props.nftMintContract.getApproved(props.nft.token_id);
+                    setContractTransferApproved(res);
+                } catch (error) {
+                    console.log(error);
+                }
             }
-            
         }
 
         if (transferApproved) {
@@ -107,7 +110,8 @@ function NFT(props: NFTProps) {
 
     if (props.nftMintContract) {
         props.nftMintContract.on("Approval", (owner: any, approved: any, token: any) => {
-            if (token.toString() === props.nft.token_id && approved.toUpperCase() === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98".toUpperCase()) {
+            if (token.toString() === props.nft.token_id &&
+            approved.toUpperCase() === "0x997853A0a4737Caaa3363804BbD2a1c290bf7F98".toUpperCase()) {
                 setTransferApproved(true);
                 setIsLoadingApproval(false);
             }
@@ -204,7 +208,8 @@ function NFT(props: NFTProps) {
                                 : <Loader type="Oval" color="#000" height={70} width={70} />  
                             : !isLoadingApproval ?
                                 <Button size={'medium'} onClick={async() => {
-                                    await props.nftMintContract.approve("0x997853A0a4737Caaa3363804BbD2a1c290bf7F98", props.nft.token_id)
+                                    await props.nftMintContract.approve("0x997853A0a4737Caaa3363804BbD2a1c290bf7F98",
+                                        props.nft.token_id)
                                     setIsLoadingApproval(true);
                                 }}>{translations.t("approveTransfer")}</Button>
                                 : <Loader type="Oval" color="#000" height={70} width={70} />  

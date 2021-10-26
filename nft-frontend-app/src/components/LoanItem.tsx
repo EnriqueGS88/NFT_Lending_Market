@@ -36,7 +36,9 @@ function LoanItem(props: Props) {
     async function borrow() {
         const { loanID } = props.loan;
         let overrides = {
-            value: ethers.utils.parseEther((Number(loanAmount.toString()) / Math.pow(10, 18)).toString())     // ether in this case MUST be a string
+            value: ethers.utils.parseEther(
+                (Number(loanAmount.toString()) / Math.pow(10, 18)).toString()
+            )     
         };
         try {
             await props.loanContract.acceptLoanRequest(loanID, overrides);

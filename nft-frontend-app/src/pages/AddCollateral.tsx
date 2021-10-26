@@ -83,7 +83,8 @@ function AddCollateral(props: AddCollateralProps) {
    
     const getValuePrice = async () => {
         if (props.oracleChainLinkContract) {
-            const price = ((await props.oracleChainLinkContract.latestAnswer()).toString() / Math.pow(10, 8));
+            const price = ((await props.oracleChainLinkContract
+                .latestAnswer()).toString() / Math.pow(10, 8));
             setEthUsdPrice(price);
         }   
     }

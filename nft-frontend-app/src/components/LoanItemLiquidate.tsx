@@ -77,7 +77,11 @@ return (
                 <p><b>{translations.t("nftID")}:</b> {tokenIdNFT}</p>
 
                 {!isLoadingLiquidate ?
-                        <Button size={'medium'} onClick={() => openModal()}>{translations.t("endTheLoan")}</Button>
+                    <Button size={'medium'} onClick={() => {
+                        setIsLoadingLiquidate(true);
+                        openModal()
+                    }
+                    }>{translations.t("endTheLoan")}</Button>
                             : <Loader type="Oval" color="#000" height={70} width={70} />}
             </div>
         </Card>
@@ -110,7 +114,6 @@ return (
                 >
                 <Button.Outline onClick={closeModal}>{translations.t("cancel")}</Button.Outline>
                     <Button ml={3} onClick={async () => {
-                        setIsLoadingLiquidate(true);
                         await cancel();
                     }
                     }>{translations.t("confirm")}</Button>

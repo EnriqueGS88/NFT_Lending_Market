@@ -4,7 +4,6 @@ import { AccountProps } from '../components/Tabs';
 import colors from '../config/colors';
 import { useTranslation } from "react-i18next";
 import { Loans } from '../dtos/loans';
-import Moralis from "moralis";
 
 import { Protocol } from '../dtos/protocol';
 import LoanItem from '../components/LoanItem';
