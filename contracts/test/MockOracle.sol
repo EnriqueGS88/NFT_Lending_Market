@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
-
+// mock
 import "@chainlink/contracts/src/v0.6/LinkTokenReceiver.sol";
 import "@chainlink/contracts/src/v0.6/interfaces/ChainlinkRequestInterface.sol";
 import "@chainlink/contracts/src/v0.6/interfaces/LinkTokenInterface.sol";
