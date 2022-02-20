@@ -1,15 +1,23 @@
-# Installation
-
-Run npm install
-Then npm start
-
-Webapp will run on localhost
-
-
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
+# Installation
+
+Go to the project directory: _./nft-frontend-app_
+
+Install the dependencies:
+
+```sh
+git clone <github url>
+yarn install
+```
+
+Then run the webapp on localhost
+```sh
+yarn start
+```
 
 ## Available Scripts
 
@@ -53,13 +61,19 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 ### Deployment
 
 Compile contracts (creates artifacts folder with ABIs)
+```sh
 npx hardhat compile
+```
 
 Start local test node:
+```sh
 npx hardhat node
+```
 
 Deploy SC:
+```sh
 npx hardhat run scripts/deploy.js --network localhost
+```
 
 Import accounts in Metamask:
 Use network Localhost 8545 and import with the private key
